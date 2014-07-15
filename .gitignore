@@ -24,3 +24,7 @@
 
 # Special Directories
 bin/
+
+# Vim Swap Files
+*.swp
+*.swo
