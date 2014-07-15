@@ -1,3 +1,6 @@
+#ifndef __SYNTH_TEST__
+#define __SYNTH_TEST__
+
 // micro test framework
 static int test_number;
 static int planned_tests;
@@ -10,3 +13,5 @@ static int planned_tests;
 // test suite
 void test_suite ();
 void test_sanity ();
+
+#endif

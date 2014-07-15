@@ -3,3 +3,4 @@
 
 #include "utils/test.h"
 #include "interpreter/alloc.h"
+#include "interpreter/graph.h"
