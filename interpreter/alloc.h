@@ -1,0 +1,1 @@
+void* synth_alloc (int bytes);
