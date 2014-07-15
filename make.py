@@ -1,3 +1,5 @@
+#!/usr/bin/python
+
 import os
 import os.path
 
@@ -5,7 +7,7 @@ print "Synth Build Tool"
 
 os.system ("rm -f bin/synth")
 
-os.system ("gcc -o bin/synth -include synth.h synth.c */*.c */*/*.c")
+os.system ("gcc -o bin/synth -lm -include synth.h synth.c */*.c */*/*.c")
 
 if os.path.exists ("bin/synth"):
 
