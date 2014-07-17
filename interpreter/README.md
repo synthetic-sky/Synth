@@ -2,7 +2,7 @@ Interpreter
 ===========
 
 ## Files
-
+```
 interpreter/
 |-- README.md: An overview of what's in this directory
 |-- alloc.c: A custom memory allocator
@@ -32,6 +32,7 @@ interpreter/
     `-- test_sched.c
 
 1 directory, 25 files
+```
 
 ## Intro
 
