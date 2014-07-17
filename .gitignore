@@ -30,6 +30,4 @@ bin/
 *.swo
 
 # files to be installed from the web
-ext/node_modules
-ext/docco_generated
-ext/bin
+ext/*
