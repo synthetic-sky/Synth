@@ -1,3 +1,7 @@
+/*
+ * Test the graph-code interpreter (i.e. construction-level 1)
+ *
+*/
 void test_suite ()
 {
 	test_sanity ();
