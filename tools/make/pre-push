@@ -1,7 +1,7 @@
 #!/bin/sh
 echo "Trying to build and test before pushing.."
 python make.py >/dev/null 2>/dev/null
-if [ $? ]
+if [ $? -ne 0 ]
 then
 	echo "The build or the tests are failing - not pushing."
 	exit 1
