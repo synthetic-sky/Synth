@@ -9,4 +9,6 @@
 
 #define sweep(buf) memset(buf, 0, sizeof(buf));
 
+static int _i[2000];
+
 #endif
