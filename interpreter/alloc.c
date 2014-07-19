@@ -4,7 +4,7 @@
 */
 void* synth_alloc (int bytes)
 {
-    return malloc (bytes);
+    return calloc (bytes, 1);
 }
 
 /*
