@@ -2,6 +2,7 @@
 
 import os
 import os.path
+import sys
 
 print "Synth Build Tool"
 
@@ -20,3 +21,5 @@ if os.path.exists ("bin/synth"):
 else:
 
 	print "Build Failed"
+
+	sys.exit (1)

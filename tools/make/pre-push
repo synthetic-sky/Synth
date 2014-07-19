@@ -1,0 +1,10 @@
+#!/bin/sh
+echo "Trying to build and test before pushing.."
+python make.py >/dev/null 2>/dev/null
+if [ $? ]
+then
+	echo "The build or the tests are failing - not pushing."
+	exit 1
+fi
+echo "Everything seems fine."
+exit 0
