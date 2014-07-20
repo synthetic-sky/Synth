@@ -1,0 +1,17 @@
+<html>
+  <head>
+    <title>Synth Visual Interface</title>
+  </head>
+  <body>
+    <div id="frame">
+    </div>
+    <script src="client.js"></script>
+    <script>
+    var socket = io ('http://localhost');
+    socket.on ('synth_init', function (data) {
+        console.log (data);
+        socket.emit ('synth_client_init', { version: "0.0.0", status: "ok" });
+     });
+    </script>
+  </body>
+</html>

@@ -2,6 +2,8 @@
 #include <malloc.h>
 #include <math.h>
 #include <assert.h>
+#include <string.h>
+#include <stdlib.h>
 
 #include "utils/common.h"
 #include "interpreter/alloc.h"
@@ -14,3 +16,5 @@
 #include "utils/map.h"
 #include "utils/hashmap.h"
 #include "interpreter/graph.h"
+#include "interpreter/global_state.h"
+#include "interpreter/storage.h"

@@ -4,7 +4,7 @@ import os
 import os.path
 import sys
 
-# import subprocess
+import subprocess
 # import 
 
 def say(msg):
@@ -20,22 +20,22 @@ if not os.path.exists (".git/.setup_done"):
 	for fn in os.listdir (MAKE_TOOLS_DIR):
 		if fn.startswith ("setup_"):
 			script = os.path.join (MAKE_TOOLS_DIR, fn)
-			os.system (script)
+			subprocess.check_call (script)
 
 SYNTH_EXECUTABLE = os.path.join ("bin", "synth")
 
 if os.path.exists (SYNTH_EXECUTABLE):
 	os.unlink (SYNTH_EXECUTABLE)
 
-# os.system ("gcc -o bin/synth -lm -include synth.h synth.c */*.c */*/*.c")
+# subprocess.check_call ("gcc -o bin/synth -lm -include synth.h synth.c */*.c */*/*.c")
 
-os.system ("make -f tools/make/Makefile")
+subprocess.check_call ("make -f tools/make/Makefile", shell = True)
 
 if os.path.exists (SYNTH_EXECUTABLE):
 
 	say ("Running Test Suite")
 
-	os.system (SYNTH_EXECUTABLE)
+	subprocess.check_call (SYNTH_EXECUTABLE)
 
 else:
 
