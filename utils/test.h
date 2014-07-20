@@ -22,5 +22,6 @@ void test_sanity ();
 void test_alloc ();
 void test_list ();
 void test_storage ();
+void test_graph ();
 
 #endif
