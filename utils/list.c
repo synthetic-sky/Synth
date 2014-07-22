@@ -20,7 +20,7 @@ void list_push (List list, void* ptr)
 {
     if (list->elements == list->max_size)
         list_grow (list);
-        
+    
     list->buffer [list->elements ++] = ptr;
 }
 
@@ -42,4 +42,17 @@ void list_grow (List list)
     list->max_size = floor (list->max_size * 1.5);
     
     list->buffer = synth_realloc (list->buffer, list->max_size * sizeof (void*));
+}
+
+/*
+ * Check if a **list**, contains a certain **element**.
+ *
+*/
+bool list_contains (List list, void* element)
+{
+    list_iter (list, void*, ptr)
+        if (ptr == element)
+            return true;
+            
+    return false;
 }
