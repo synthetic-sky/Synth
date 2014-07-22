@@ -8,7 +8,7 @@ typedef struct graph_node_t {
     
     ident_t ident;
     
-    // struct graph_node_t* type;
+    List types;
     
     List links_outgoing;
     List links_incoming;
@@ -26,6 +26,8 @@ GraphNode graph_node_inherit (GraphNode, GraphNode);
     GraphNode node = graph_node_new (); \
     graph_node_inherit(node, global_state_find_node (type_ident); \
 })
+
+bool node_has_type (GraphNode, GraphNode);
 
 typedef struct graph_link_t {
     allocator_header
@@ -47,5 +49,15 @@ GraphLink graph_link_new (GraphNode, GraphNode, GraphNode);
 #define link_origin_ptr(link) link->origin
 #define link_target_ptr(link) link->target
 #define link_type_ptr(link) link->type
+
+GraphLink graph_find_link (GraphNode, GraphNode, GraphNode, bool);
+
+#define find_incoming_link(...) graph_find_link (..., false)
+#define find_outgoing_link(...) graph_find_link (..., true)
+
+GraphNode graph_find_endpoint (GraphNode, GraphNode, GraphNode, bool);
+
+#define find_link_target(...) graph_find_endpoint (..., false)
+#define find_link_origin(...) graph_find_endpoint (..., true)
 
 #endif
