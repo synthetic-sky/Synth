@@ -15,6 +15,7 @@
 #include "utils/chained_pool.h"
 #include "utils/map.h"
 #include "utils/hashmap.h"
+#include "utils/pprint.h"
 #include "interpreter/graph.h"
 #include "interpreter/global_state.h"
 #include "interpreter/storage.h"
