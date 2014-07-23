@@ -17,3 +17,12 @@ void* hashmap_find (HashMap map, string key)
 {
     return NULL;
 }
+
+/*
+ * Set **key** = **value**.
+ *
+*/
+void hashmap_set (HashMap map, string key, void* value)
+{
+    // ...
+}

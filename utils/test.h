@@ -23,5 +23,6 @@ void test_alloc ();
 void test_list ();
 void test_storage ();
 void test_graph ();
+void test_parser ();
 
 #endif

@@ -8,5 +8,6 @@ typedef struct synth_hashmap_t {
 } *HashMap;
 
 void* hashmap_find (HashMap, string);
+void hashmap_set (HashMap, string, void*);
 
 #endif

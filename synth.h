@@ -4,6 +4,10 @@
 #include <assert.h>
 #include <string.h>
 #include <stdlib.h>
+#include <ctype.h>
+#include <error.h>
+
+#include "jansson.h"
 
 #include "utils/common.h"
 #include "interpreter/alloc.h"
@@ -16,6 +20,14 @@
 #include "utils/map.h"
 #include "utils/hashmap.h"
 #include "utils/pprint.h"
+#include "utils/ipc.h"
 #include "interpreter/graph.h"
 #include "interpreter/global_state.h"
 #include "interpreter/storage.h"
+#include "interpreter/signals.h"
+#include "interpreter/parser.h"
+#include "interpreter/sched.h"
+#include "interpreter/interp.h"
+#include "interpreter/rx.h"
+#include "interpreter/runloop.h"
+#include "interpreter/repl.h"

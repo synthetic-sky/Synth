@@ -10,7 +10,6 @@ void test_list ()
         list_push (list, (void*)i);
     assert (42 > SYNTH_LIST_MIN_SIZE);
     ok (list_len (list) == 42, "list should grow nicely")
-    print_list (list);
     ok (list_contains (list, (void*)40), "list should contain the number 40")
     fail (list_contains (list, (void*)42), "list should not contain the number 42")
 }

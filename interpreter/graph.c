@@ -17,6 +17,15 @@ GraphNode graph_node_new ()
 }
 
 /*
+ * Set up an inheritance relationship between **node** and **base_type**.
+ *
+*/
+GraphNode graph_node_inherit (GraphNode node, GraphNode base_type)
+{
+    
+}
+
+/*
  * Check if a **node** has a given **type**.
  *
  *  Note that not only may the type have been inherited, 
@@ -90,3 +99,18 @@ GraphNode graph_find_endpoint (GraphNode node, GraphNode link_type, GraphNode en
     else
         return NULL;
 }
+
+/*
+ * Add a new node **elem** to a **color**.
+ *
+*/
+void graph_color_add_elem (GraphNode color, GraphNode elem)
+{
+    
+}
+
+/*
+ * Remove a node **elem** from a **color**.
+ *
+*/
+void graph_color_del_elem (GraphNode, GraphNode);

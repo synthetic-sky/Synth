@@ -8,6 +8,8 @@ var express = require('express');
 
 var fs = require ("fs");
 
+var nano = require ("nanomsg");
+
 var STORAGE_FOLDER = "tools/interface/server/storage";
 
 function Session ()
@@ -63,32 +65,26 @@ function IO_facing_synth ()
 
 function IO_facing_client ()
 {
-    //
-    // ## SimpleServer `SimpleServer(obj)`
-    //
-    // Creates a new instance of SimpleServer with the following options:
-    //  * `port` - The HTTP port to listen on. If `process.env.PORT` is set, _it overrides this value_.
-    //
-    var router = express ();
-    var server = http.createServer (router);
-    var io     = socketio.listen (server);
+    var IO = this;
+    IO.router = express ();
+    IO.server = http.createServer (IO.router);
+    IO.io     = socketio.listen (IO.server);
     
-    router.use (express.static (path.resolve (__dirname, 'client')));
+    IO.router.use (express.static (path.resolve (__dirname, 'client')));
     
-    var messages = [];
-    var sockets  = [];
+    IO.sockets  = [];
     
-    var controller = new Controller;
+    IO.controller = new Controller;
     
-    var sessionBySocket = {};
+    IO.sessionBySocket = {};
     
-    io.on('connection', function (socket) {
+    IO.io.on('connection', function (socket) {
         sockets.push(socket);
     
         socket.on ('disconnect', function () {
-          sockets.splice (sockets.indexOf(socket), 1);
-          var session = sessionBySocket [socket.id]
-          controller.s();
+          sockets.splice (IO.sockets.indexOf(socket), 1);
+          var session = IO.sessionBySocket [socket.id]
+	  suspend_session_soon (session);
         });
     
         socket.on('message', function (msg) {
@@ -110,7 +106,7 @@ function IO_facing_client ()
     
         socket.on('synth_client_init', function (name) {
           console.log ("synth_client_init received")
-          var session = sessionBySocket [socket.id] = open_session ();
+          var session = IO.sessionBySocket [socket.id] = open_session ();
           console.log ("session was opened")
           socket.set('session.id', session.id, function (err) {
             console.log ("set session.id to " + name);
@@ -118,32 +114,72 @@ function IO_facing_client ()
         });
     });
 
-    function updateRoster() {
-      async.map(
-        sockets,
-        function (socket, callback) {
-          socket.get('name', callback);
-        },
-        function (err, names) {
-          broadcast('roster', names);
-        }
-      );
-    }
-    
     function broadcast(event, data) {
       sockets.forEach(function (socket) {
         socket.emit(event, data);
       });
     }
     
-    server.listen(process.env.PORT || 3000, process.env.IP || "0.0.0.0", function(){
-      var addr = server.address();
-      console.log("Chat server listening at", addr.address + ":" + addr.port);
+    IO.router.get ('/', function (req, res) {
+        res.sendfile ('client/client.html');
+    })
+    
+    IO.router.get ('/client/buttons.css', function (req, res) {
+        res.sendfile ('client/buttons.css');
+    })
+    
+    IO.router.get ('/client/client.css', function (req, res) {
+        res.sendfile ('client/client.css');
+    })
+    
+    IO.router.get ('/client/client.js', function (req, res) {
+        res.sendfile ('client/client.js');
+    })
+    
+    IO.router.get ('/client/jquery.js', function (req, res) {
+        res.sendfile ('client/jquery.js');
+    })
+    
+    IO.router.get ('/node_modules/react/dist/JSXTransformer.js', function (req, res) {
+        res.sendfile ('node_modules/react/dist/JSXTransformer.js');
+    })
+    
+    IO.router.get ('/node_modules/react/dist/react-with-addons.js', function (req, res) {
+        res.sendfile ('node_modules/react/dist/react-with-addons.js');
+    })
+    
+    IO.router.get ('/node_modules/socket.io/node_modules/socket.io-client/socket.io.js', function (req, res) {
+        res.sendfile ('node_modules/socket.io/node_modules/socket.io-client/socket.io.js');
+    })
+    
+    
+    IO.server.listen(process.env.PORT || 3000, process.env.IP || "0.0.0.0", function(){
+      var addr = IO.server.address();
+      console.log("Chat IO.server listening at", addr.address + ":" + addr.port);
     });
 }
 
 
 function Model ()
 {
+    var model = this;
 }
 
+IO_right = new IO_facing_client ();
+
+var pub = nano.socket('pub');
+var sub = nano.socket('sub');
+
+var addr = 'tcp://' + process.env.IP + ':' + 20123
+pub.bind(addr);
+sub.connect(addr);
+
+sub.on('message', function (buf) {
+    console.log(buf.toString());
+    pub.close();
+    sub.close();
+});
+
+setTimeout(function () {
+    pub.send("Hello from nanomsg!");
+}, 100);

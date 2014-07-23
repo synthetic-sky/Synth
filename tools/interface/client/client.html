@@ -1,17 +1,69 @@
 <html>
   <head>
     <title>Synth Visual Interface</title>
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+    <link rel="stylesheet" href="client/buttons.css">
+    <link rel="stylesheet" href="client/client.css"/>
   </head>
   <body>
     <div id="frame">
+        <div id="frame-top-menu-bar"></div>
+        <div id="frame-view">
+            <div id="frame-view-left-side">
+            
+            </div>
+            <div id="frame-view-ride-side">
+            
+            </div>
+        </div>
+        <div id="frame-bottom-menu-bar">
+            <a href="#" class="button button-circle button-primary"id="do-open">Open</a>
+            <a href="#" class="button button-circle" id="do-find">Query</a>
+            <a href="#" class="button button-circle" id="do-up">Up</a>
+            <a href="#" class="button button-circle" id="do-sideways">Related</a>
+        </div>
     </div>
-    <script src="client.js"></script>
+    <script src="client/jquery.js"></script>
+    <script src="client/client.js"></script>
+    <script src="node_modules/react/dist/react-with-addons.js"></script>
+    <script src="node_modules/react/dist/JSXTransformer.js"></script>
+    <script src="node_modules/socket.io/node_modules/socket.io-client/socket.io.js"></script>
     <script>
-    var socket = io ('http://localhost');
-    socket.on ('synth_init', function (data) {
-        console.log (data);
-        socket.emit ('synth_client_init', { version: "0.0.0", status: "ok" });
-     });
+        var socket = io ('http://localhost');
+        socket.on ('synth_init', function (data) {
+          console.log (data);
+          socket.emit ('synth_client_init', { version: "0.0.0", status: "ok" });
+        });
+    </script>
+    <script type="text/jsx">
+    /** @jsx React.DOM */
+
+    var HelloWorld = React.createClass({
+        render: function() {
+            return (
+                <p>
+                    Hello, <input type="text" placeholder="Synth" />!
+                        It is {this.props.date.toTimeString()}
+                </p>
+            );
+        }
+    });
+    
+    setInterval(function() {
+        React.renderComponent(
+            <HelloWorld date={new Date()} />,
+                $('#frame-view-left-side')[0]
+        );
+    }, 500);
+
+    $("#frame-view").height($("#frame").innerHeight()-250);
+    $(window).resize( function () {
+    $("#frame-view").height($("#frame").innerHeight()-250); })
+    $(".button").click(function () {
+        var $button = this;
+        
+        $("#frame-view-right-side").html("Test"); // [0].innerHTML += "<p>" + $button.attr("id").slice(3) + "</p>\n"
+    })
     </script>
   </body>
 </html>

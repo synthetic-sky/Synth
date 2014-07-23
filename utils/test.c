@@ -9,4 +9,5 @@ void test_suite ()
     test_list ();
     test_storage ();
     test_graph ();
+    test_parser ();
 }

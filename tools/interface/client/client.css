@@ -1,0 +1,30 @@
+#frame {
+    color: #dddddd;
+    width: 98%;
+    height: 92%;
+    margin: auto;
+    background-color: black;
+}
+#frame-top-menu-bar {
+    height: 100px;
+    padding: 10px;
+    background-color: #212121;
+}
+#frame-view {
+    height: 100%;
+}
+#frame-view-left-side {
+    height: 100%;
+    width: 50%;
+    float: left;
+}
+#frame-view-right-side {
+    height: 100%;
+    width: 50%;
+    float: right;
+}
+#frame-bottom-menu-bar {
+    height: 150px;
+    padding: 10px;
+    background-color: #212121;
+}

@@ -17,7 +17,8 @@ static int _i[2000];
 #define eq(x,y) (strcmp(x,y) == 0)
 #define neq(x,y) (! eq(x,y))
 
-#define unless(x) if (!(x))
+#define ifnt(x) if (!(x))
+#define unless ifnt
 
 static inline string ltos (long num)
 {
