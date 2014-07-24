@@ -14,12 +14,12 @@ pathway = 'pathway' situation_ref pattern changes end ;
 
 (* situations *)
 situation = ('sit' | 'situation') situation_body end ;
-situation_body = pattern  ;
+situation_body = name:name pattern ;
 situation_ref = 'situation' ['"'] name ['"'] ;
 
 (* patterns *)
 pattern = 'pattern' pattern_decl end ;
-pattern_decl = 'find' | 'assure' 'the' node 'is' (type_constraint | incoming_constraint) ;
+pattern_decl = ('find' | 'assure') 'the' node 'is' (type_constraint | incoming_constraint) | ();
 
 (* constraints *)
 type_constraint = 'of type' type ;
