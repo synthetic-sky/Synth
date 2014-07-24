@@ -1,10 +1,5 @@
-console.log ("client.js loaded")
+console.log ("client.js was loaded")
 
-require.config ({
-  baseUrl: "/client",
-  waitSeconds: 10,
-})
-
-require (["spiffy", "frame"], function () {
-  
+define ("client", ["interface", "frame", "jsx!views/main"], function (client, main_test) {
+  console.log ("client was loaded by requirejs, via init")
 })

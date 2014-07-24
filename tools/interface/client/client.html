@@ -23,47 +23,12 @@
             <a href="#" class="button button-circle" id="do-sideways">Related</a>
         </div>
     </div>
-    <script src="client/jquery.js"></script>
-    <script src="client/client.js"></script>
-    <script src="node_modules/react/dist/react-with-addons.js"></script>
-    <script src="node_modules/react/dist/JSXTransformer.js"></script>
-    <script src="node_modules/socket.io/node_modules/socket.io-client/socket.io.js"></script>
+    <script data-main="client/init" src="node_modules/requirejs/require.js"></script>
     <script>
-        var socket = io ('http://localhost');
-        socket.on ('synth_init', function (data) {
-          console.log (data);
-          socket.emit ('synth_client_init', { version: "0.0.0", status: "ok" });
-        });
+        require (["socket.io"], function (socket_io) {
+        })
     </script>
     <script type="text/jsx">
-    /** @jsx React.DOM */
-
-    var HelloWorld = React.createClass({
-        render: function() {
-            return (
-                <p>
-                    Hello, <input type="text" placeholder="Synth" />!
-                        It is {this.props.date.toTimeString()}
-                </p>
-            );
-        }
-    });
-    
-    setInterval(function() {
-        React.renderComponent(
-            <HelloWorld date={new Date()} />,
-                $('#frame-view-left-side')[0]
-        );
-    }, 500);
-
-    $("#frame-view").height($("#frame").innerHeight()-250);
-    $(window).resize( function () {
-    $("#frame-view").height($("#frame").innerHeight()-250); })
-    $(".button").click(function () {
-        var $button = this;
-        
-        $("#frame-view-right-side").html("Test"); // [0].innerHTML += "<p>" + $button.attr("id").slice(3) + "</p>\n"
-    })
     </script>
   </body>
 </html>

@@ -32,6 +32,7 @@ bin/
 # files to be installed from the web
 ext/*
 node_modules
+tools/interface/client/ext/*
 
 # Generated documentation
 docs/docco
