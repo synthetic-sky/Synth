@@ -36,3 +36,7 @@ node_modules
 # Generated documentation
 docs/docco
 docs/html
+
+# Cloud9 meta-data
+#  Synth is currently being developed within a Cloud9 VM (http:/c9.io)
+.c9
