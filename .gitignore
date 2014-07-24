@@ -41,3 +41,6 @@ docs/html
 # Cloud9 meta-data
 #  Synth is currently being developed within a Cloud9 VM (http:/c9.io)
 .c9
+
+# Generated code files
+tools/parser/parser_core.py
