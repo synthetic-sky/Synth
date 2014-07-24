@@ -7,6 +7,8 @@ ListChain list_chain_new ()
     ListChain chain = synth_alloc (sizeof (struct synth_list_t));
     
     chain->lists = list_new ();
+    
+    return chain;
 }
 
 /*

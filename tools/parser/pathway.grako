@@ -1,0 +1,47 @@
+(* pathway language, version 1 *)
+
+(* parsing starts here *)
+start = program:{construct}+
+
+(* constructs *)
+construct = declaration
+construct = situation
+construct = pathway
+construct = comment
+
+(* declarations *)
+declaration = '//' action:Word parameters:RestOfLine
+
+(* pathways *)
+pathway = 'pathway' situation-ref pattern changes end
+
+(* situations *)
+situation = ('sit' | 'situation') situation-body end
+situation-body = pattern 
+situation-ref = 'situation' ['"'] name ['"']
+
+(* patterns *)
+pattern = 'pattern' pattern_decl end
+pattern_decl = 'find' 
+pattern_decl = 'assure' 'the' node 'is' (type-constraint | incoming-constraint)
+pattern_decl = ()
+
+(* constraints *)
+type-constraint = 'of type' type
+incoming-constraint = type [capture]
+
+(* changes *)
+changes = 'changes' () end
+
+(* comments *)
+comment = '--' @:RestOfLine
+
+(* semantic atoms *)
+name = Word
+type = '[' name ']' | '#' name | 'type:' node
+node = '(' name ')'
+
+(* lexical components *)
+end = 'end'
+Word = /[a-zA-Z]+/
+RestOfLine = /[^\n]*\n/

@@ -4,10 +4,12 @@
 typedef struct synth_hashmap_t {
     allocator_header
     
-    
+    json_t* __internal;
 } *HashMap;
 
-void* hashmap_find (HashMap, string);
+HashMap hashmap_new (void);
+void* hashmap_get (HashMap, string);
+string hashmap_get_string (HashMap, string);
 void hashmap_set (HashMap, string, void*);
 
 #endif

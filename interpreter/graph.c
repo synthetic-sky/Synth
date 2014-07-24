@@ -22,7 +22,7 @@ GraphNode graph_node_new ()
 */
 GraphNode graph_node_inherit (GraphNode node, GraphNode base_type)
 {
-    
+    return NULL;
 }
 
 /*

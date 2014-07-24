@@ -14,7 +14,7 @@
 
 static int _i[2000];
 
-#define eq(x,y) (strcmp(x,y) == 0)
+#define eq(x,y) (x == y || x && y && strcmp(x,y) == 0)
 #define neq(x,y) (! eq(x,y))
 
 #define ifnt(x) if (!(x))
@@ -23,7 +23,7 @@ static int _i[2000];
 static inline string ltos (long num)
 {
     static ascii buf[64];
-    sprintf(buf, "%l", num);
+    sprintf(buf, "%li", num);
     return buf;
 }
 

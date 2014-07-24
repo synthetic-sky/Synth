@@ -20,6 +20,9 @@ void test_suite ()
     test_list ();
 	test_summary ()
 	
+	test_hashmap ();
+	test_summary ()
+	
     test_storage ();
 	test_summary ()
 	
@@ -27,5 +30,8 @@ void test_suite ()
 	test_summary ()
 	
     test_parser ();
+	test_summary ()
+	
+	test_rx ();
 	test_summary ()
 }

@@ -37,7 +37,7 @@ extern int test_number, tests_passed, tests_failed, tests_skipped,
 	} \
 	else \
 	{ \
-	    printf("\nfail, " ANSI_COLOR_RED "%i" ANSI_COLOR_RESET ": %s", test_number, #description); \
+	    printf("\n" ANSI_COLOR_RED "fail" ANSI_COLOR_RESET ", " ANSI_COLOR_RED "%i" ANSI_COLOR_RESET ": %s", test_number, #description); \
 	    last_test_passed = false; \
 	    tests_failed ++; \
 	} \
@@ -90,7 +90,7 @@ extern int test_number, tests_passed, tests_failed, tests_skipped,
  *
 */
 #define skip(reason) \
-    printf("\n" ANSI_COLOR_YELLOW " skip, %i: %s" ANSI_COLOR_RESET, ++test_number, reason); \
+    printf("\n " ANSI_COLOR_YELLOW "skip" ANSI_COLOR_RESET ", " ANSI_COLOR_YELLOW "%i" ANSI_COLOR_RESET ": %s", ++test_number, reason); \
     tests_skipped ++;
 
 /*
@@ -101,8 +101,10 @@ void test_suite ();
 void test_sanity ();
 void test_alloc ();
 void test_list ();
+void test_hashmap ();
 void test_storage ();
 void test_graph ();
 void test_parser ();
+void test_rx ();
 
 #endif

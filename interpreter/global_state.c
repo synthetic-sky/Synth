@@ -19,7 +19,7 @@ void init_global_state ()
 */
 GraphNode global_state_find_node (ident_t ident)
 {
-    return hashmap_find (synth_ident_to_node, ltos (ident));
+    return hashmap_get (synth_ident_to_node, ltos (ident));
 }
 
 /*
@@ -29,7 +29,7 @@ GraphNode global_state_find_node (ident_t ident)
 */
 GraphNode global_state_find_or_add_node (string ident_s)
 {
-    GraphNode node = hashmap_find (synth_ident_to_node, ident_s);
+    GraphNode node = hashmap_get (synth_ident_to_node, ident_s);
     
     ifnt (node)
     {
@@ -48,7 +48,7 @@ GraphNode global_state_find_or_add_node (string ident_s)
  * Register a node in the global {ident -> node} index.
  *
 */
-GraphNode global_state_add_node (GraphNode node)
+void global_state_add_node (GraphNode node)
 {
     hashmap_set (synth_ident_to_node, ltos (node->ident), node);
 }

@@ -1,1 +1,6 @@
-- turn the shell scripts <tools/make/setup_*.sh> into python scripts
+@make.py
+	- turn the shell scripts <tools/make/setup_*.sh> into python scripts
+
+@test.h
+	- add the capability to observe () and remember () in tests, which is only displayed on fail(), or on verbose().
+	- add totals for the entire test suite

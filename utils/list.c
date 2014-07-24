@@ -10,6 +10,8 @@ List list_new ()
     list->buffer = synth_alloc (SYNTH_LIST_MIN_SIZE * sizeof (void*));
     list->elements = 0;
     list->max_size = SYNTH_LIST_MIN_SIZE;
+    
+    return list;
 }
 
 /*

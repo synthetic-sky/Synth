@@ -39,4 +39,6 @@ bool interpreter_eval_file (string path)
         return false;
     
     runloop_run_program (code);
+    
+    return true;
 }

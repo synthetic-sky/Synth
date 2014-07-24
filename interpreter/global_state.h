@@ -5,7 +5,7 @@ void init_global_state ();
 
 GraphNode global_state_find_node (ident_t);
 GraphNode global_state_find_or_add_node (string);
-GraphNode global_state_add_node (GraphNode);
+void global_state_add_node (GraphNode);
 
 #define load_concept(name) GraphNode name = global_state_find_or_add_node (#name);
 

@@ -45,6 +45,8 @@ GraphNode scheduler_cond_gate (GraphNode csg, GraphNode cond)
         if (cond)
             return scheduler_cond_gate (csg, cond);   
     }
+    
+    return NULL;
 }
 
 /*
@@ -102,4 +104,5 @@ bool scheduler_call (GraphNode state, GraphNode pathway)
         }
     );
     
+    return false;
 }

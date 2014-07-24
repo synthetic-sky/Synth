@@ -5,7 +5,7 @@
 
 bool store_color (GraphNode color)
 {
-    
+    return false;
 }
 
 string serialize_graph_node (GraphNode node)

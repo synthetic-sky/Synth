@@ -5,7 +5,7 @@
 */
 GraphCode parser_parse (string code)
 {
-    
+    return NULL;
 }
 
 /*
@@ -78,7 +78,7 @@ json_t* parser_invoke_external_parser (string request)
 */
 GraphNode parser_translate_AST_to_graphcode (json_t* AST)
 {
-    
+    return NULL;
 }
 
 string escape (string str, char bad_char)
