@@ -80,19 +80,3 @@ GraphNode parser_translate_AST_to_graphcode (json_t* AST)
 {
     return NULL;
 }
-
-string escape (string str, char bad_char)
-{
-    static ascii buf [2000000];
-    zero_field (buf);
-    
-    char c; string p = buf;
-    while ((c = *str++))
-    {
-        if (c == bad_char || c == '\\')
-            *p++ = '\\';
-        *p++ = c;
-    }
-    
-    return buf;
-}

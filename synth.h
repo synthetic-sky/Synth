@@ -13,6 +13,7 @@
 #include "interpreter/alloc.h"
 #include "interpreter/alloc_types.h"
 #include "utils/test.h"
+#include "utils/strings.h"
 #include "utils/list.h"
 #include "utils/chained_list.h"
 #include "utils/pool.h"
