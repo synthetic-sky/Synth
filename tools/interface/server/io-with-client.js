@@ -1,6 +1,6 @@
-requirejs.define ("io-with-browser", ["express", "http", "socket.io", "path", "routes"], function (express, http, socketio, path, routes)
+requirejs.define ("io-with-client", ["express", "http", "socket.io", "path", "routes"], function (express, http, socketio, path, routes)
 {
-  function IO_with_browser (controller)
+  function IO_with_client (controller)
   {
     var IO = this;
     
@@ -70,11 +70,11 @@ requirejs.define ("io-with-browser", ["express", "http", "socket.io", "path", "r
     routes.register (IO.router);
   }
   
-  IO_with_browser.prototype.send = function io_with_browser_send () {
+  IO_with_client.prototype.send = function io_with_client_send () {
     console.log ("would send")
   }
   
   return {
-    IO: IO_with_browser
+    IO: IO_with_client
   };
 });

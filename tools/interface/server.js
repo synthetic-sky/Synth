@@ -8,12 +8,12 @@ requirejs.config ({
   nodeRequire: require
 })
 
-requirejs (["io-with-browser", "io-with-synth", "controller", "receiver", "sessions"], 
-  function (io_with_browser, io_with_synth, controller, receiver, sessions)
+requirejs (["io-with-client", "io-with-synth", "controller", "receiver", "sessions"], 
+  function (io_with_client, io_with_synth, controller, receiver, sessions)
 {
-  var ui    = new io_with_browser.IO ();
+  var ui    = new io_with_client.IO ();
   var synth = new io_with_synth.IO ();
-  var session_store = new sessions.SessionStore
+  var session_store = new sessions.SessionStore ();
   var ctrl = new controller.Controller ();
   var react = new receiver.Receiver ();
   
