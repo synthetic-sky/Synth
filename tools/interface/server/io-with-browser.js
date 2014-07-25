@@ -1,4 +1,4 @@
-requirejs.define ("io-with-browser", ["express", "http", "socket.io", "path"], function (express, http, socketio, path)
+requirejs.define ("io-with-browser", ["express", "http", "socket.io", "path", "routes"], function (express, http, socketio, path, routes)
 {
   function IO_with_browser (controller)
   {
@@ -10,8 +10,6 @@ requirejs.define ("io-with-browser", ["express", "http", "socket.io", "path"], f
     IO.router = express ();
     IO.server = http.createServer (IO.router);
     IO.io     = socketio.listen (IO.server);
-      
-    IO.router.use (express.static (path.resolve ("..", 'client')));
     
     IO.sessionBySocket = {};
     
@@ -64,74 +62,12 @@ requirejs.define ("io-with-browser", ["express", "http", "socket.io", "path"], f
       });
     }
     
-    IO.router.get ('/', function (req, res) {
-        res.sendfile ('client/client.html');
-    })
-    
-    IO.router.get ('/client/buttons.css', function (req, res) {
-        res.sendfile ('client/buttons.css');
-    })
-    
-    IO.router.get ('/client/client.css', function (req, res) {
-        res.sendfile ('client/client.css');
-    })
-    
-    IO.router.get ('/client/client.js', function (req, res) {
-        res.sendfile ('client/client.js');
-    })
-    
-    IO.router.get ('/client/views/main.js', function (req, res) {
-        res.sendfile ('client/views/main.jsx');
-    })
-    
-    IO.router.get ('/client/init.js', function (req, res) {
-        res.sendfile ('client/init.js');
-    })
-    
-    IO.router.get ('/client/interface.js', function (req, res) {
-        res.sendfile ('client/interface.js');
-    })
-    
-    IO.router.get ('/client/frame.js', function (req, res) {
-        res.sendfile ('client/frame.js');
-    })
-    
-    IO.router.get ('/client/jquery.js', function (req, res) {
-        res.sendfile ('client/jquery.js');
-    })
-    
-    // IO.router.get ('/node_modules/react/dist/JSXTransformer.js', function (req, res) {
-    //     res.sendfile ('node_modules/react/dist/JSXTransformer.js');
-    // })
-    
-    IO.router.get ('/client/ext/text.js', function (req, res) {
-        res.sendfile ('client/ext/text.js');
-    })
-    
-    IO.router.get ('/client/ext/jsx.js', function (req, res) {
-        res.sendfile ('client/ext/jsx.js');
-    })
-    
-    IO.router.get ('/client/ext/JSXTransformer-mod.js', function (req, res) {
-        res.sendfile ('client/ext/JSXTransformer-mod.js');
-    })
-    
-    IO.router.get ('/node_modules/react/dist/react-with-addons.js', function (req, res) {
-        res.sendfile ('node_modules/react/dist/react-with-addons.js');
-    })
-    
-    IO.router.get ('/node_modules/socket.io/node_modules/socket.io-client/socket.io.js', function (req, res) {
-        res.sendfile ('node_modules/socket.io/node_modules/socket.io-client/socket.io.js');
-    })
-    
-    IO.router.get ('/node_modules/requirejs/require.js', function (req, res) {
-        res.sendfile ('node_modules/requirejs/require.js');
-    })
-    
     IO.server.listen (process.env.PORT || 3000, process.env.IP || "0.0.0.0", function (){
       var addr = IO.server.address ();
       console.log ("Chat IO.server listening at", addr.address + ":" + addr.port);
     });
+    
+    routes.register (IO.router);
   }
   
   IO_with_browser.prototype.send = function io_with_browser_send () {
