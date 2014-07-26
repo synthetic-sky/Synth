@@ -1,12 +1,12 @@
-define ("%s/%s", [], function ()
+define ("%(PKG)s/%(SUB_PKG)s/%(FN)s", [], function ()
 {
-  function %s (app) {
-    var %s = this;
-    %s.local  = app;
-    %s.global = app.global;
+  function %(FN_tc)s (app) {
+    var %(FN)s = this;
+    %(FN)s.local  = app;
+    %(FN)s.global = app.global;
   }
   
   return {
-    %s: %s
+    %(FN_tc)s: %(FN_tc)s
   };
 });

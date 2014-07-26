@@ -1,20 +1,30 @@
-define ("%s", 
-  [ "common/space", "logic/init", "ui/init", "io/init", "io/loader"], 
-    function (space,      logic,        ui,        io,      loader)
+define ("%(PKG)s/init", ["common/space", "%(PKG)s/logic/init", "%(PKG)s/ui/init"],
+  function (space, logic, ui)
 {
-  function %s (config)
+  // inherit from space.Space
+  %(PKG_tc)s.prototype = space.Space.prototype;
+
+  function %(PKG_tc)s (app)
   {
-    // initialise the global application space
-    var app = new space.Space ();
+    // initialise the local application space
+    var %(PKG)s = this;
+    
+    // call base-class constructor
+    space.Space.apply (%(PKG)s, arguments);
+
+    // keep a link to the global application space
+    %(PKG)s.global = app;
       
-    // initialise the two sub-components
-    logic.init (app);
+    // initialize the two sub-components
+    logic.init (%(PKG)s);
 
     if (! config.headless)
-      ui.init (app);
+      ui.init (%(PKG)s);
+
+    console.log ("%(PKG)s.init done")
   }
 
   return {
-    %s: %s
+    %(PKG_tc)s: %(PKG_tc)s
   };
 });

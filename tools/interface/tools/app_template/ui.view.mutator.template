@@ -1,4 +1,4 @@
-define ("ui/view.mutator", [], function ()
+define ("%(PKG)s/ui/view.mutator", [], function ()
 {
   function ViewMutator (app) {
     var mutator = this;

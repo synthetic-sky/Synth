@@ -18,6 +18,21 @@ require.config ({
   waitSeconds: 10
 });
 
+function load_apps (apps) {
+  require.config ({
+    baseUrl: '/client/apps' // we promise to only load apps from now on?
+  });
+  
+  apps.forEach (function (name) {
+    require ([name + "/init"], function (plugin_app) {
+      if (plugin_app)
+        console.log ("app", name, "loaded ok")
+      else
+        console.error ("app", name, "failed to load")
+    })  
+  });
+}
+
 require ([
   "logic/init" , "common/space", "ui/init", "io/init", "io/loader"], 
     function (logic, space, ui, io, loader)
@@ -29,6 +44,8 @@ require ([
       logic.init (app);
       ui.init (app);
       io.init (app);
+      
+      load_apps (["frame", "history", "sessions"]);
       
       // check that everything went ok
       if (! (app.manager && app.model_mutator))

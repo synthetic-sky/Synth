@@ -1,4 +1,5 @@
-define ("logic/init", ["logic/manager", "logic/model.mutator", "logic/model"], function (manager, model_mutator, model)
+define ("%(PKG)s/logic/init", ["%(PKG)s/logic/manager", "%(PKG)s/logic/model.mutator", "%(PKG)s/logic/model"],
+  function (manager, model_mutator, model)
 {
   return {
     init: function logic_init (app) {
