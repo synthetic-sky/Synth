@@ -1,8 +1,8 @@
-define ("sessions", 
+define ("history", 
   [ "common/space", "logic/init", "ui/init", "io/init", "io/loader"], 
     function (space,      logic,        ui,        io,      loader)
 {
-  function Sessions (config)
+  function History (config)
   {
     // initialise the global application space
     var app = new space.Space ();
@@ -15,6 +15,6 @@ define ("sessions",
   }
 
   return {
-    Sessions: Sessions
+    History: History
   };
 });
