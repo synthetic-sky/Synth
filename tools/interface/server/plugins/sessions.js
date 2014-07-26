@@ -1,4 +1,4 @@
-define ("sessions", ["fs", "model"], function (fs, model)
+define ("plugins/sessions", ["fs", "model"], function (fs, model)
 {
   function Session () {
     var session = this;
@@ -13,7 +13,7 @@ define ("sessions", ["fs", "model"], function (fs, model)
   }
   
   return {
-    Session: Session,
-    SessionStore: function stub () {}
+    events: {
+    }
   };
 });

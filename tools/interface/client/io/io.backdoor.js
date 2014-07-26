@@ -1,4 +1,4 @@
-define ("io/io.backdoor", [], function () 
+define ("io/io.backdoor", ["socket_io"], function (socket_io) 
 {
   function IO (app) 
   {

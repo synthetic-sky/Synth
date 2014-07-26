@@ -8,12 +8,20 @@ requirejs.config ({
   nodeRequire: require
 })
 
-requirejs (["io-with-client", "io-with-synth", "controller", "receiver", "sessions"], 
-  function (io_with_client, io_with_synth, controller, receiver, sessions)
+requirejs (["io-with-client", "io-with-synth", "controller", "receiver", "plugins/sessions", "plugins/loader"], 
+  function (io_with_client, io_with_synth, controller, receiver, plugin_sessions, plugin_loader)
 {
-  var ui    = new io_with_client.IO ();
-  var synth = new io_with_synth.IO ();
-  var session_store = new sessions.SessionStore ();
-  var ctrl = new controller.Controller ();
-  var react = new receiver.Receiver ();
+  var server = Object.create (null);
+  
+  server.io_with_client = new io_with_client.IO ();
+  server.io_with_synth = new io_with_synth.IO ();
+  server.ctrl = new controller.Controller ();
+  server.react = new receiver.Receiver ();
+  
+  global.server = server;
+  
+  var plugins = [plugin_sessions, plugin_loader];
+  
+  server.io_with_client.register_plugin ("sessions", plugin_sessions.events)
+  server.io_with_client.register_plugin ("loader", plugin_loader.events);
 })

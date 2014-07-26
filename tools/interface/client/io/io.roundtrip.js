@@ -21,6 +21,11 @@ define ("io/io.roundtrip", ["socket_io"], function (socket_io)
   }
   
   IO.prototype.get_socket = function () { return this.socket };
+  
+  IO.prototype.emit = function (event, data, callback) {
+    var io = this;
+    io.socket.emit (event, data, callback); 
+  };
 
   return {
     IO: IO

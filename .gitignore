@@ -48,3 +48,6 @@ tools/parser/parser_core.py
 
 # dot files
 .*
+
+# Databases
+tools/interface/storage

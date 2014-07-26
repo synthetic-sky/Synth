@@ -13,9 +13,15 @@ define ("io/loader", [], function ()
     });
   }
   
+  Loader.prototype.init = function loader_init () {
+    var loader = this;
+    
+    console.log ("init loader")
+  }
+  
   Loader.prototype.load = function load (details) {
     var loader = this;
-    loader.local.io.emit ("load", details.paths || details.path, function (reply) {
+    loader.local.io.emit ("!load", { paths: details.paths, path: details.path }, function (reply) {
       if (reply.success)
         details.callback && details.callback (reply.data);
       else
@@ -32,12 +38,14 @@ define ("io/loader", [], function ()
     {
       var cb = this.outstanding [reply.id];
       cb && cb (reply.data);
+      delete this.outstanding [reply.id];
     }
   };
   
   Loader.prototype.load_fail = function (reply) {
-    var cb =this.outstanding [reply.id];
+    var cb = this.outstanding [reply.id];
     cb && cb (null, reply.error || "unknown error during load");
+    delete this.outstanding [reply.id];
   };
   
   return {

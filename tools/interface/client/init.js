@@ -39,4 +39,6 @@ require ([
         return console.error ("something wrong with io.init");
         
       console.log ("init.js done")
+      
+      app.io.emit ("!load", {path: "graph:541242"}, function (reply) { console.log ("received reply for !load:", reply)})
 });

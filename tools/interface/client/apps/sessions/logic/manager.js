@@ -8,6 +8,8 @@ define ("logic/manager", [], function ()
   
   Manager.prototype.init = function manager_init () {
     var manager = this;
+    
+    console.log ("sessions.manager.init called");
   };
   
   return {
