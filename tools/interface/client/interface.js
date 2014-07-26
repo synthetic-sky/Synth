@@ -1,3 +1,0 @@
-define ("interface", [], function () {
-  
-});

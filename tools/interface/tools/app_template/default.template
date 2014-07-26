@@ -1,0 +1,12 @@
+define ("%s/%s", [], function ()
+{
+  function %s (app) {
+    var %s = this;
+    %s.local  = app;
+    %s.global = app.global;
+  }
+  
+  return {
+    %s: %s
+  };
+});

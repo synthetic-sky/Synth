@@ -15,13 +15,13 @@ requirejs.define ("io-with-client", ["express", "http", "socket.io", "path", "ro
     
     IO.io.on ('connection', function (socket)
     {
-      sockets.push (socket);
+      IO.sockets.push (socket);
     
       socket.on ('disconnect', function () 
       {
-        sockets.splice (IO.sockets.indexOf (socket), 1);
+        IO.sockets.splice (IO.sockets.indexOf (socket), 1);
         var session = IO.sessionBySocket [socket.id]
-    	  suspend_session_soon (session);
+    	  // suspend_session_soon (session);
       });
     
       socket.on ('message', function (msg) 
@@ -36,9 +36,6 @@ requirejs.define ("io-with-client", ["express", "http", "socket.io", "path", "ro
             name: name,
             text: text
           };
-  
-          broadcast ('message', data);
-          messages.push (data);
         });
       });
     
@@ -55,12 +52,7 @@ requirejs.define ("io-with-client", ["express", "http", "socket.io", "path", "ro
         })
       });
     });
-  
-    function broadcast (event, data) {
-      sockets.forEach (function (socket) {
-        socket.emit (event, data);
-      });
-    }
+
     
     IO.server.listen (process.env.PORT || 3000, process.env.IP || "0.0.0.0", function (){
       var addr = IO.server.address ();

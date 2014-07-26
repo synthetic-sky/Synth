@@ -16,6 +16,4 @@ requirejs (["io-with-client", "io-with-synth", "controller", "receiver", "sessio
   var session_store = new sessions.SessionStore ();
   var ctrl = new controller.Controller ();
   var react = new receiver.Receiver ();
-  
-  ui.send ("hi", {})
 })
