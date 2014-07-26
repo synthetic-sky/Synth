@@ -14,5 +14,11 @@
     "requirejs": "^2.1.14",
     "pouchdb": "^2.2.3",
     "es5-shim": "^4.0.0"
+  },
+  "devDependencies": {
+    "phantomjs": "^1.9.7-15",
+    "mocha-phantomjs": "^3.5.0",
+    "mocha": "^1.21.0",
+    "chai": "^1.9.1"
   }
 }
