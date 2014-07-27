@@ -1,20 +1,29 @@
-define ("frame", 
-  [ "common/space", "logic/init", "ui/init", "io/init", "io/loader"], 
-    function (space,      logic,        ui,        io,      loader)
+define ("frame/init", ["common/app.base", "frame/logic/init", "frame/ui/init"],
+  function (app_base, logic, ui)
 {
-  function Frame (config)
-  {
-    // initialise the global application space
-    var app = new space.Space ();
-      
-    // initialise the two sub-components
-    logic.init (app);
+  // inherit from app_base.AppBase
+  Frame.prototype = app_base.AppBase.prototype;
 
-    if (! config.headless)
-      ui.init (app);
+  function Frame (app)
+  {
+    // initialise the local application app_base
+    var frame = this;
+    
+    // call base-class constructor
+    app_base.AppBase.apply (frame, arguments);
+    
+    // register ourselves in the global application space
+    app.register ("frame", frame); // we are a singleton instance
+
+    // keep a link to the global application space
+    frame.global = app;
+      
+    // initialize the two sub-components
+    logic.init (frame);
+    ui.init    (frame); // frame can never be headless
+
+    console.log ("frame.init done")
   }
 
-  return {
-    Frame: Frame
-  };
+  return Frame;
 });

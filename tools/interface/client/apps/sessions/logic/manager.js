@@ -1,4 +1,4 @@
-define ("logic/manager", [], function ()
+define ("sessions/logic/manager", [], function ()
 {
   function Manager (app) {
     var manager = this;
@@ -8,8 +8,6 @@ define ("logic/manager", [], function ()
   
   Manager.prototype.init = function manager_init () {
     var manager = this;
-    
-    console.log ("sessions.manager.init called");
   };
   
   return {

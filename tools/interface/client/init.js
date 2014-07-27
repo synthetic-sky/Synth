@@ -14,6 +14,7 @@ require.config ({
     "jsx": "ext/jsx",
     "text": "ext/text",
     "JSXTransformer": "ext/JSXTransformer-mod",
+    "underscore": "../node_modules/underscore/underscore",
   },
   waitSeconds: 10
 });
@@ -29,21 +30,37 @@ function load_apps (apps) {
         console.log ("app", name, "loaded ok")
       else
         console.error ("app", name, "failed to load")
+      
+      // stub
+      if (name == "frame")
+      {
+        var app = window.theApp, Frame = plugin_app;
+        
+        app.frame = new Frame (app);
+        app.frame.view.render (document.body);
+      }
     })  
   });
 }
 
-require ([
-  "logic/init" , "common/space", "ui/init", "io/init", "io/loader"], 
-    function (logic, space, ui, io, loader)
+require (["underscore", "common/app.base", "logic/init", "ui/init", "io/init", "io/loader", "common/client_ident"], 
+    function (util, app_base, logic, ui, io, loader, ident)
     {
-      // initialise the global application space
-      var app = window.AppSpace = new space.Space ();
+      // use underscore as a source of helper routines
+      window.util = window._;
+      
+      // initialise unique-ident manager before we do anything else
+      // app.client_ident = new client_ident.ClientIdentManager (app);
+      
+      // initialise the global application
+      var app = window.theApp = new app_base.AppBase ();
       
       // initialise the three main sub-components
       logic.init (app);
       ui.init (app);
       io.init (app);
+      
+      app.initial_load_done = true;
       
       load_apps (["frame", "history", "sessions"]);
       
@@ -54,6 +71,8 @@ require ([
         return console.error ("something wrong with ui.init");
       if (! (app.loader && app.io))
         return console.error ("something wrong with io.init");
+        
+      // ident.load_ident ();
         
       console.log ("init.js done")
       

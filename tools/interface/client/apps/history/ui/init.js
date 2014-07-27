@@ -1,5 +1,5 @@
-define ("ui/init", ["ui/view.mutator", "jsx!ui/view", "ui/view.events"], 
-        function       (view_mutator,      view,      view_events)
+define ("history/ui/init", ["history/ui/view.mutator", "jsx!history/ui/view", "history/ui/view.events"], 
+  function (view_mutator, view, view_events)
 {
   return {
     init: function ui_init (app) {

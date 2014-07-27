@@ -1,4 +1,4 @@
-define ("logic/model", [], function ()
+define ("frame/logic/model", [], function ()
 {
   function Model (app) {
     var model = this;
@@ -6,7 +6,5 @@ define ("logic/model", [], function ()
     model.global = app.global;
   }
   
-  return {
-    Model: Model
-  };
+  return Model;
 });

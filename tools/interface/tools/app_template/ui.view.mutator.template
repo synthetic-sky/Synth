@@ -10,7 +10,5 @@ define ("%(PKG)s/ui/view.mutator", ["underscore"], function (util)
     });
   }
   
-  return {
-    Mutator: ViewMutator
-  };
+  return Mutator;
 });

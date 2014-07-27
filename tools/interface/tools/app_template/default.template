@@ -1,12 +1,10 @@
-define ("%(PKG)s/%(SUB_PKG)s/%(FN)s", ["underscore"], function (util)
+define ("%(PKG)s/%(SUB_PKG)s/%(MOD)s", ["underscore"], function (util)
 {
-  function %(FN_tc)s (app) {
-    var %(FN)s = this;
-    %(FN)s.local  = app;
-    %(FN)s.global = app.global;
+  function %(VAR_tc)s (app) {
+    var %(VAR)s = this;
+    %(VAR)s.local  = app;
+    %(VAR)s.global = app.global;
   }
   
-  return {
-    %(FN_tc)s: %(FN_tc)s
-  };
+  return %(VAR_tc)s;
 });

@@ -1,6 +1,6 @@
 /** @jsx React.DOM */
 
-define ("ui/view", ["jquery", "react"], function ($, React)
+define ("sessions/ui/view", ["jquery", "react"], function ($, React)
 {
   function View (app) {
     var view = this;

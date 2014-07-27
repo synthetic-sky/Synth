@@ -1,17 +1,35 @@
-define ("history", 
-  [ "common/space", "logic/init", "ui/init", "io/init", "io/loader"], 
-    function (space,      logic,        ui,        io,      loader)
+define ("history/init", ["common/app.base", "history/logic/init", "history/ui/init"],
+  function (app_base, logic, ui)
 {
-  function History (config)
-  {
-    // initialise the global application space
-    var app = new space.Space ();
-      
-    // initialise the two sub-components
-    logic.init (app);
+  // inherit from app_base.AppBase
+  History.prototype = app_base.AppBase.prototype;
 
-    if (! config.headless)
-      ui.init (app);
+  function History (app, config)
+  {
+    // initialise the local application app_base
+    var history = this;
+    
+    // call base-class constructor
+    app_base.AppBase.apply (history, arguments);
+
+    // keep a link to the global application app_base
+    history.global = app;
+      
+    // initialize the two sub-components
+    logic.init (history);
+
+    // if (! config.headless)
+    //   ui.init (history);
+      
+    app.register ("history", history);
+
+    console.log ("history.init done")
+  }
+  
+  History.prototype.register_change = function history_register_change (app, change) {
+    console.assert (app.uid);
+    
+    
   }
 
   return {

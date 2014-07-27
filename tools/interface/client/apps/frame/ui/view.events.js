@@ -1,12 +1,10 @@
-define ("ui/view.events", [], function ()
+define ("frame/ui/view.events", [], function ()
 {
-  function View.Events (app) {
-    var view.events = this;
-    view.events.local  = app;
-    view.events.global = app.global;
+  function ViewEvents (app) {
+    var view_events = this;
+    view_events.local  = app;
+    view_events.global = app.global;
   }
   
-  return {
-    View.Events: View.Events
-  };
+  return ViewEvents;
 });

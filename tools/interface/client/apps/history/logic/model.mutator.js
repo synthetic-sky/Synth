@@ -1,12 +1,12 @@
-define ("logic/model.mutator", [], function ()
+define ("history/logic/model_mutator", [], function ()
 {
-  function Model.Mutator (app) {
-    var model.mutator = this;
-    model.mutator.local  = app;
-    model.mutator.global = app.global;
+  function ModelMutator (app) {
+    var model_mutator = this;
+    model_mutator.local  = app;
+    model_mutator.global = app.global;
   }
   
   return {
-    Model.Mutator: Model.Mutator
+    ModelMutator: ModelMutator
   };
 });

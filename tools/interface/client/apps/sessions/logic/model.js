@@ -1,4 +1,4 @@
-define ("logic/model", [], function ()
+define ("sessions/logic/model", [], function ()
 {
   function Model (app) {
     var model = this;

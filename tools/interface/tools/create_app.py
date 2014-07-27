@@ -51,8 +51,9 @@ def create (*files):
         "PKG": package, 
         "PKG_tc": package .title () .replace ("_", "") .replace (".", ""),
         "SUB_PKG": sub_package .replace (".", ""),
-        "FN": basename .replace (".", "_"), 
-        "FN_tc": basename .title () .replace ("_", "") .replace (".", "")
+        "MOD": basename,
+        "VAR": basename .replace (".", "_"), 
+        "VAR_tc": basename .title () .replace ("_", "") .replace (".", "")
       })
     else:
       open (fn, "a") .close () # non-js files

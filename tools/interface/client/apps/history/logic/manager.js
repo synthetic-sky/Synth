@@ -1,4 +1,4 @@
-define ("logic/manager", [], function ()
+define ("history/logic/manager", [], function ()
 {
   function Manager (app) {
     var manager = this;

@@ -1,4 +1,4 @@
-define ("ui/view.mutator", [], function ()
+define ("frame/ui/view.mutator", [], function ()
 {
   function ViewMutator (app) {
     var mutator = this;
@@ -10,7 +10,5 @@ define ("ui/view.mutator", [], function ()
     });
   }
   
-  return {
-    Mutator: ViewMutator
-  };
+  return ViewMutator;
 });

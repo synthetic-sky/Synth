@@ -10,7 +10,5 @@ define ("%(PKG)s/logic/manager", ["underscore"], function (util)
     var manager = this;
   };
   
-  return {
-    Manager: Manager
-  };
+  return Manager;
 });

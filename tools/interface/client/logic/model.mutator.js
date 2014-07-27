@@ -1,4 +1,4 @@
-define ("logic/model.mutator", ["common/space"], function (space)
+define ("logic/model.mutator", ["common/app.base"], function (app_base)
 {
   function ModelMutator (app) {
     var model_mutator = this;

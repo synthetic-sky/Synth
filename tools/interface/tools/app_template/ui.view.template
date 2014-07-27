@@ -21,9 +21,9 @@ define ("%(PKG)s/ui/view", ["underscore", "jquery", "react"], function (util, $,
     view.last_render = details;
     
     if (details.render_target)
-      React.renderComponent (details.render_target);
+      React.renderComponent (view.reactComponent, details.render_target);
     else
-      React.renderComponent (details);
+      React.renderComponent (view.renderComponent, details);
   }
   
   View.prototype.reactComponent = React.createClass ({
@@ -36,7 +36,5 @@ define ("%(PKG)s/ui/view", ["underscore", "jquery", "react"], function (util, $,
     }
   });
   
-  return {
-    View: View
-  };
+  return View;
 });

@@ -1,11 +1,11 @@
 define ("%(PKG)s/logic/init", ["underscore", "%(PKG)s/logic/manager", "%(PKG)s/logic/model.mutator", "%(PKG)s/logic/model"],
-  function (util, manager, model_mutator, model)
+  function (util, Manager, ModelMutator, Model)
 {
   return {
     init: function logic_init (app) {
-      app.manager       = new manager.Manager (app);
-      app.model_mutator = new model_mutator.Mutator (app);
-      app.model         = new model.Model (app);
+      app.manager       = new Manager (app);
+      app.model_mutator = new Mutator (app);
+      app.model         = new Model (app);
     
       app.manager.init ();
     }
