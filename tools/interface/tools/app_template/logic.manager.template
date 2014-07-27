@@ -1,4 +1,4 @@
-define ("%(PKG)s/logic/manager", [], function ()
+define ("%(PKG)s/logic/manager", ["underscore"], function (util)
 {
   function Manager (app) {
     var manager = this;

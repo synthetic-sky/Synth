@@ -1,5 +1,5 @@
-define ("%(PKG)s/ui/init", ["%(PKG)s/ui/view.mutator", "jsx!%(PKG)s/ui/view", "%(PKG)s/ui/view.events"], 
-  function (view_mutator, view, view_events)
+define ("%(PKG)s/ui/init", ["underscore", "%(PKG)s/ui/view.mutator", "jsx!%(PKG)s/ui/view", "%(PKG)s/ui/view.events"], 
+  function (util, view_mutator, view, view_events)
 {
   return {
     init: function ui_init (app) {

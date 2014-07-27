@@ -1,5 +1,5 @@
-define ("%(PKG)s/init", ["common/space", "%(PKG)s/logic/init", "%(PKG)s/ui/init"],
-  function (space, logic, ui)
+define ("%(PKG)s/init", ["underscore", "common/space", "%(PKG)s/logic/init", "%(PKG)s/ui/init"],
+  function (util, space, logic, ui)
 {
   // inherit from space.Space
   %(PKG_tc)s.prototype = space.Space.prototype;

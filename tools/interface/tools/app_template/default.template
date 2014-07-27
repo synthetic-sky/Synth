@@ -1,4 +1,4 @@
-define ("%(PKG)s/%(SUB_PKG)s/%(FN)s", [], function ()
+define ("%(PKG)s/%(SUB_PKG)s/%(FN)s", ["underscore"], function (util)
 {
   function %(FN_tc)s (app) {
     var %(FN)s = this;
