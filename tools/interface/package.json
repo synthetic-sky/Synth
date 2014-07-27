@@ -15,7 +15,10 @@
     "pouchdb": "^2.2.3",
     "es5-shim": "^4.0.0",
     "ampersand-router": "^1.0.2",
-    "underscore": "^1.6.0"
+    "underscore": "^1.6.0",
+    "rsvp": "^3.0.9",
+    "recast": "^0.6.6",
+    "regenerator": "^0.4.12"
   },
   "devDependencies": {
     "phantomjs": "^1.9.7-15",
