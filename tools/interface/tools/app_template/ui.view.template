@@ -18,19 +18,20 @@ define ("%(PKG)s/ui/view", ["underscore", "jquery", "react"], function (util, $,
   {
     var view = this;
     
-    view.last_render = details;
+    if (! view.reactComponent)
+      view.reactComponent = new view.reactComponentClass (details.render_data);
     
     if (details.render_target)
       React.renderComponent (view.reactComponent, details.render_target);
     else
-      React.renderComponent (view.renderComponent, details);
+      React.renderComponent (view.reactComponent, details);
   }
   
-  View.prototype.reactComponent = React.createClass ({
+  View.prototype.reactComponentClass = React.createClass ({
     render: function render () {
       var component = this;
       
-      // this.props contains the data passed to .renderComponent
+      // this.props contains the render_data passed to the class constructor
       
       return <div> <b> {this.props.name} </b> </div>;
     }

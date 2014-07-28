@@ -2,8 +2,13 @@ define ("%(PKG)s/logic/manager", ["underscore"], function (util)
 {
   function Manager (app) {
     var manager = this;
+    
     manager.local  = app;
     manager.global = app.global;
+    
+    app.events (manager, {
+      // ...
+    });
   }
   
   Manager.prototype.init = function manager_init () {

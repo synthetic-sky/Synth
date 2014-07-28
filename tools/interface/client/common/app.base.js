@@ -157,7 +157,7 @@ define ("common/app.base", ["underscore"], function (util, client_ident)
     var app_base = this;
     if (event in app_base.registry && ! app_base.registry [event] .blocked)
     {
-      app_base.process_event_queue (event, details);
+      app_base.process_event_queue (event);
       
       app_base.registry [event] .forEach (function (handler) {
         handler (details);

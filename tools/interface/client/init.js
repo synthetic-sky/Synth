@@ -11,6 +11,7 @@ require.config ({
     "socket_io": "../node_modules/socket.io/node_modules/socket.io-client/socket.io",
     "jquery": "ext/jquery",
     "react": "../node_modules/react/dist/react-with-addons",
+    "pouchdb": "ext/pouchdb",
     "jsx": "ext/jsx",
     "text": "ext/text",
     "JSXTransformer": "ext/JSXTransformer-mod",
@@ -37,14 +38,17 @@ function load_apps (apps) {
         var app = window.theApp, Frame = plugin_app;
         
         app.frame = new Frame (app);
-        app.frame.view.render (document.body);
+        // app.frame.view.render ({
+        //   render_target: document.body,
+        //   render_data: { data: "fake data" },
+        // });
       }
     })  
   });
 }
 
-require (["underscore", "common/app.base", "logic/init", "ui/init", "io/init", "io/loader", "common/client_ident"], 
-    function (util, app_base, logic, ui, io, loader, ident)
+require (["underscore", "common/app.base", "logic/init", "ui/init", "io/init", "io/loader", "common/client_ident", "pouchdb"], 
+    function (util, app_base, logic, ui, io, loader, ident, PouchDB)
     {
       // use underscore as a source of helper routines
       window.util = window._;
@@ -59,6 +63,8 @@ require (["underscore", "common/app.base", "logic/init", "ui/init", "io/init", "
       logic.init (app);
       ui.init (app);
       io.init (app);
+      
+      app.Pouch = new PouchDB ('sessions');
       
       app.initial_load_done = true;
       
@@ -75,6 +81,9 @@ require (["underscore", "common/app.base", "logic/init", "ui/init", "io/init", "
       // ident.load_ident ();
         
       console.log ("init.js done")
+            
       
-      app.io.emit ("!load", {path: "graph:541242"}, function (reply) { console.log ("received reply for !load:", reply)})
+    //  app.io.emit ("!put", {path: "session:test-id2", data: { x: 10, y: 21 }}, function (reply) { console.log ("received reply for !put:", reply)})
+
+     // app.io.emit ("!load", {path: "session:test-id2"}, function (reply) { console.log ("received reply for !load:", reply)})
 });

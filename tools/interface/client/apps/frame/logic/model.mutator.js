@@ -2,8 +2,19 @@ define ("frame/logic/model.mutator", ["underscore"], function (util)
 {
   function ModelMutator (app) {
     var model_mutator = this;
+    
     model_mutator.local  = app;
     model_mutator.global = app.global;
+    
+    app.events (model_mutator, {
+      'logic.text-input-change': model_mutator.fake_bogus_text_change_handler,
+    });
+  }
+  
+  ModelMutator.prototype.fake_bogus_text_change_handler = function fake_bogus_text_change_handler (the_new_text) {
+    // this.global.history.register_change (...);
+    console.log ("model_mutator: logic.text-input-change");
+    this.global.io.emit ('new_text', the_new_text);
   }
   
   ModelMutator.prototype.on_frame_close_view = function () {

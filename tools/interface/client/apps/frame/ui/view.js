@@ -8,20 +8,24 @@ define ("frame/ui/view", ["jquery", "react"], function ($, React)
     view.global = app.global;
     
     view.local.events (view, {
-      render: function (details) {
-        view.local.view.render (details.target);
-      }
+      render: view.render.bind (view)
     });
   }
   
-  View.prototype.render = function render_view (details)
+  View.prototype.render = function view_render (details)
   {
     var view = this;
     
     view.last_render = details;
+      
+    if (details.render_data)
+    {
+      console.assert (! ('frame' in details.render_data));
+      details.render_data.frame = view.local;
+    }
     
     if (! view.reactComponent)
-      view.reactComponent = new view.reactComponentClass ({ data: "fake data" });
+      view.reactComponent = new view.reactComponentClass (details.render_data);
     
     if (details.render_target)
       React.renderComponent (view.reactComponent, details.render_target);
@@ -29,18 +33,76 @@ define ("frame/ui/view", ["jquery", "react"], function ($, React)
       React.renderComponent (view.reactComponent, details);
   }
   
-  View.prototype.reactComponentClass = React.createClass ({
+  
+  // this code was lifted from a StackOverflow thread
+  //   (i can't seem to find it right now)
+  var ContentEditable = React.createClass({
+    displayName: 'ContentEditable',
+
+    render: function () {
+      return React.DOM.div({
+        onInput: this.emitChange,
+        onBlur: this.emitChange,
+        contentEditable: true,
+        style: this.props.style,
+        dangerouslySetInnerHTML: {
+          __html: this.props.html
+        }
+      });
+    },
+
+    componentWillUpdate: function(nextProps) {
+      if (nextProps.html !== this.getDOMNode().innerHTML) {
+        this.getDOMNode().innerHTML = nextProps.html;
+      }
+    },
+
+    shouldComponentUpdate: function (nextProps) {
+      if (nextProps.html !== this.getDOMNode().innerHTML) {
+        return true;
+      }
+      return false;
+    },
+
+    emitChange: function () {
+      var html = this.getDOMNode().innerHTML;
+      if (this.props.onChange && html !== this.lastHtml)
+        this.props.onChange (html);
+      this.lastHtml = html;
+    }
+  });
+  
+  View.prototype.reactComponentClass = React.createClass ({    
+    displayName: 'frame.view',
+
+    getInitialState: function () {
+      return {
+        html: this.props.data
+      };
+    },
+
     render: function render () {
       var component = this;
       
-      // this.props contains the data passed to .renderComponent
+      // this.props contains the render_data passed to the class constructor
+      
+      var handleChange = function (text) {
+        console.log ("changed to", text)
+        component.html = event;
+      } .bind (this);
+
+      var text_style = { padding: "10px" };
+      
+      var frame = this.props.frame;
       
       return (
         <div id="frame">
           <div id="frame-top-menu-bar"></div>
           <div id="frame-view">
-              <div id="frame-view-left-side">
-                { this.props.data }
+              <div id="frame-view-left-side" >
+                <ContentEditable style={ text_style } 
+                      onChange={ frame.emitter ("view.text-input-update") }
+                          html={ this.props.data }/>
               </div>
               <div id="frame-view-ride-side">
               
