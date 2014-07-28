@@ -4,7 +4,9 @@ define ("common/app.base", ["underscore"], function (util, client_ident)
     var app_base = this;
     // app_base.registry = Object.create (null);
     app_base.registry = app_base;
+    app_base.event_queue = Object.create (null);
     app_base.uid = app_base.UID ();
+    app_base.event_registry = Object.create (null);
   }
   
   AppBase.prototype.register = function app_base_register (config) {
@@ -16,13 +18,15 @@ define ("common/app.base", ["underscore"], function (util, client_ident)
   
   AppBase.prototype.events = function app_base_events (obj, map) {
     var app_base = this;
+    
     for (var event in map)
     {
       var handler = map [event];
-      var handler_name = "on_" + event;
-      if (handler_name in app_base.registry)
-        return console.error ("cannot register " + handler_name + "; the name is already taken");
-      app_base.registry [handler_name] = handler.bind (obj);
+      
+      if (event in app_base.registry)
+        app_base.registry [event] .push (handler.bind (obj));
+      else
+        app_base.registry [event] = [handler.bind (obj)];
     }
   };
   
@@ -108,18 +112,88 @@ define ("common/app.base", ["underscore"], function (util, client_ident)
   
   AppBase.prototype.on = function app_base_subscribe_to_event (event, handler) {
     var app_base = this;
-    if (! (event in app_base.registry))
-      app_base.registry [event] = [handler];
-    else
+    
+    /*
+     * The registry contains entries for each event.
+     *
+     * ! This should really be its own .event_registry - to avoid naming conflicts.
+    */
+    
+    if (event in app_base.registry)
       app_base.registry [event] .push (handler);
+    else
+      app_base.registry [event] = [handler];
+      
+    /*
+     * Events are queued by .emit (and more explicitly, by it's alias .queue)
+     *   whenever no handler has yet been registered.
+     *
+     * This is especially useful when the loading order is not clear,
+     *   and an expected subscriber might not yet have been loaded.
+     *
+     * It does however require that no handlers are registered that are not
+     *   ready to be called immediately. This *might* be an ok trade-off..
+     *
+    */
+    
+    app_base.process_event_queue (event);
   };
   
+  AppBase.prototype.process_event_queue = function app_base_process_event_queue (event)
+  {
+    var app_base = this;
+    if (event in app_base.event_queue && event in app_base.registry)
+    {
+      app_base.event_queue [event] .forEach (function (details) {
+        app_base.registry [event] .forEach (function (handler) {
+          handler (details);
+        });
+      });
+      delete app_base.event_queue [event];
+    }
+  }
+    
   AppBase.prototype.emit = function app_base_emit_event (event, details) {
     var app_base = this;
-    if (event in app_base.registry)
-      app_base.registry.forEach (function (handler) {
+    if (event in app_base.registry && ! app_base.registry [event] .blocked)
+    {
+      app_base.process_event_queue (event, details);
+      
+      app_base.registry [event] .forEach (function (handler) {
         handler (details);
       });
+    }
+    else
+      if (event in app_base.event_queue)
+        app_base.event_queue [event] .push (details);
+    else
+      app_base.event_queue [event] = [details];
+  };
+  
+  AppBase.prototype.queue = AppBase.prototype.emit;
+  
+  AppBase.prototype.block = function app_base_block_event (event) {
+    var app_base = this;
+    if (event in app_base.registry)
+      app_base.registry [event] .blocked = true;
+    return util.partial (app_base.unblock.bind (app_base), event);
+  }
+  
+  AppBase.prototype.unblock = function app_base_unblock_event (event, last_only) {
+    var app_base = this;
+    app_base.registry [event] .blocked = false;
+    if (last_only && event in app_base.event_queue)
+      app_base.event_queue [event] .splice (0, app_base.event_queue [event] .length - 1);  
+    app_base.process_event_queue (event);
+  };
+  
+  AppBase.prototype.emitter = function (event_name)
+  {
+    var app_base = this;
+    
+    return function (event_data) {
+      app_base.queue (event_name, event_data);
+    };
   };
   
   AppBase.prototype.UID = function app_base_uid () {
