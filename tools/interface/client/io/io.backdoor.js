@@ -11,7 +11,7 @@ define ("io/io.backdoor", ["socket_io"], function (socket_io)
 
   IO.prototype.init = function IO_init ()
   {
-    var socket = socket_io ('https://' + location.host);
+    var socket = socket_io (location.protocol + '//' + location.host);
     socket.on ('synth_init', function (data) {
       console.log (data);
       socket.emit ('synth_client_init', { version: "0.0.0", status: "ok" });

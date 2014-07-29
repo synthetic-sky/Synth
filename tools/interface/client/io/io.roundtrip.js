@@ -10,7 +10,7 @@ define ("io/io.roundtrip", ["socket_io"], function (socket_io)
   {
     var io = this;
     
-    var socket = socket_io ('https://' + location.host);
+    var socket = socket_io (location.protocol + '//' + location.host);
     
     io.socket = socket;
     
