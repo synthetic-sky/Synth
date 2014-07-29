@@ -26,6 +26,10 @@
     "mocha": "^1.21.0",
     "chai": "^1.9.1",
     "sinon": "^1.10.3",
-    "testem": "^0.6.17"
+    "testem": "^0.6.17",
+    "gulp-regenerator": "^0.2.1",
+    "gulp": "^3.8.6",
+    "gulp-plumber": "^0.6.4",
+    "gulp-replace": "^0.4.0"
   }
 }

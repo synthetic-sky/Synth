@@ -45,6 +45,7 @@ docs/html
 
 # Generated code files
 tools/parser/parser_core.py
+dist/
 
 # dot files
 .*
