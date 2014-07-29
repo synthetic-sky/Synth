@@ -1,12 +1,14 @@
 define ("%(PKG)s/%(SUB_PKG)s/%(MOD)s", ["underscore"], function (util)
 {
-  function %(VAR_tc)s (app) {
+  function %(VAR_tc)s (%(PKG)s) {
     var %(VAR)s = this;
     
-    %(VAR)s.local  = app;
-    %(VAR)s.global = app.global;
+    %(VAR)s.local  = %(PKG)s;
+    %(VAR)s.global = %(PKG)s.global;
     
-    app.events (%(VAR)s, {
+    %(PKG)s.register ('%(VAR)s', %(VAR)s);
+    
+    %(PKG)s.events (%(VAR)s, {
       // ...
     });
   }

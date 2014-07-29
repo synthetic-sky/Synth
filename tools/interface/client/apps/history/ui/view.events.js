@@ -1,12 +1,17 @@
-define ("history/ui/view_events", [], function ()
+define ("history/ui/view.events", ["underscore"], function (util)
 {
-  function ViewEvents (app) {
+  function ViewEvents (history) {
     var view_events = this;
-    view_events.local  = app;
-    view_events.global = app.global;
+    
+    view_events.local  = history;
+    view_events.global = history.global;
+    
+    history.register ('view_events', view_events);
+    
+    history.events (view_events, {
+      // ...
+    });
   }
   
-  return {
-    ViewEvents: ViewEvents
-  };
+  return ViewEvents;
 });

@@ -1,38 +1,28 @@
-define ("history/init", ["common/app.base", "history/logic/init", "history/ui/init"],
-  function (app_base, logic, ui)
+define ("history/init", ["underscore", "common/app.base", "history/logic/init", "history/ui/init"],
+  function (util, AppBase, history_logic, history_ui)
 {
-  // inherit from app_base.AppBase
-  History.prototype = app_base.AppBase.prototype;
+  // inherit from AppBase
+  History.prototype = AppBase.prototype;
 
-  function History (app, config)
+  function History (app)
   {
     // initialise the local application app_base
     var history = this;
     
     // call base-class constructor
-    app_base.AppBase.apply (history, arguments);
+    AppBase.apply (history, arguments);
 
     // keep a link to the global application app_base
     history.global = app;
       
     // initialize the two sub-components
-    logic.init (history);
+    history_logic.init (history);
 
-    // if (! config.headless)
-    //   ui.init (history);
-      
-    app.register ("history", history);
+    if (! config.headless)
+      history_ui.init (history);
 
     console.log ("history.init done")
   }
-  
-  History.prototype.register_change = function history_register_change (app, change) {
-    console.assert (app.uid);
-    
-    
-  }
 
-  return {
-    History: History
-  };
+  return History;
 });

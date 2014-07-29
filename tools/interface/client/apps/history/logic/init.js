@@ -1,13 +1,16 @@
-define ("history/logic/init", ["history/logic/manager", "history/logic/model.mutator", "history/logic/model"],
-  function (manager, model_mutator, model)
+define ("history/logic/init", ["underscore", "history/logic/manager", "history/logic/model.mutator", "history/logic/model"],
+  function (util, Manager, ModelMutator, Model)
 {
   return {
-    init: function logic_init (app) {
-      app.manager       = new manager.Manager (app);
-      app.model_mutator = new model_mutator.Mutator (app);
-      app.model         = new model.Model (app);
+    init: function logic_init (history) {
+      new Manager (history);
+      new Mutator (history);
+      new Model (history);
     
-      app.manager.init ();
+      history.manager.init ();
     }
   };
+  
+  
+  
 });

@@ -1,12 +1,17 @@
-define ("sessions/logic/model_mutator", [], function ()
+define ("sessions/logic/model.mutator", ["underscore"], function (util)
 {
-  function ModelMutator (app) {
+  function ModelMutator (sessions) {
     var model_mutator = this;
-    model_mutator.local  = app;
-    model_mutator.global = app.global;
+    
+    model_mutator.local  = sessions;
+    model_mutator.global = sessions.global;
+    
+    sessions.register ('model_mutator', model_mutator);
+    
+    sessions.events (model_mutator, {
+      // ...
+    });
   }
   
-  return {
-    ModelMutator: ModelMutator
-  };
+  return ModelMutator;
 });

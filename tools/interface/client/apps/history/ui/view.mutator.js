@@ -1,16 +1,16 @@
-define ("history/ui/view.mutator", [], function ()
+define ("history/ui/view.mutator", ["underscore"], function (util)
 {
-  function ViewMutator (app) {
-    var mutator = this;
-    mutator.local  = app;
-    mutator.global = app.global
+  function ViewMutator (history) {
+    var view_mutator = this;
+    view_mutator.local  = history;
+    view_mutator.global = history.global
     
-    app.events (mutator, {
-      // app-specific mutations ..
+    history.register ('view_mutator', view_mutator);
+    
+    history.events (mutator, {
+      // history-specific mutations of the UI ..
     });
   }
   
-  return {
-    Mutator: ViewMutator
-  };
+  return ViewMutator;
 });

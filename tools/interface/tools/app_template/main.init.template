@@ -1,5 +1,5 @@
-define ("%(PKG)s/init", ["underscore", "common/app_base", "%(PKG)s/logic/init", "%(PKG)s/ui/init"],
-  function (util, AppBase, main_logic, main_ui)
+define ("%(PKG)s/init", ["underscore", "common/app.base", "%(PKG)s/logic/init", "%(PKG)s/ui/init"],
+  function (util, AppBase, %(PKG)s_logic, %(PKG)s_ui)
 {
   // inherit from AppBase
   %(PKG_tc)s.prototype = AppBase.prototype;
@@ -16,10 +16,10 @@ define ("%(PKG)s/init", ["underscore", "common/app_base", "%(PKG)s/logic/init", 
     %(PKG)s.global = app;
       
     // initialize the two sub-components
-    main_logic.init (%(PKG)s);
+    %(PKG)s_logic.init (%(PKG)s);
 
     if (! config.headless)
-      main_ui.init (%(PKG)s);
+      %(PKG)s_ui.init (%(PKG)s);
 
     console.log ("%(PKG)s.init done")
   }

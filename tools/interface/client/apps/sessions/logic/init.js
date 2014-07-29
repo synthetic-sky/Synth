@@ -1,13 +1,13 @@
-define ("sessions/logic/init", ["sessions/logic/manager", "sessions/logic/model.mutator", "sessions/logic/model"],
-  function (manager, model_mutator, model)
+define ("sessions/logic/init", ["underscore", "sessions/logic/manager", "sessions/logic/model.mutator", "sessions/logic/model"],
+  function (util, Manager, ModelMutator, Model)
 {
   return {
-    init: function logic_init (app) {
-      app.manager       = new manager.Manager (app);
-      app.model_mutator = new model_mutator.Mutator (app);
-      app.model         = new model.Model (app);
+    init: function logic_init (sessions) {
+      new Manager (sessions);
+      new Mutator (sessions);
+      new Model (sessions);
     
-      app.manager.init ();
+      sessions.manager.init ();
     }
   };
 });

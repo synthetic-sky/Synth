@@ -1,6 +1,6 @@
 /** @jsx React.DOM */
 
-define ("sessions/ui/view", ["jquery", "react"], function ($, React)
+define ("sessions/ui/view", ["underscore", "jquery", "react"], function (util, $, React)
 {
   function View (app) {
     var view = this;
@@ -18,25 +18,24 @@ define ("sessions/ui/view", ["jquery", "react"], function ($, React)
   {
     var view = this;
     
-    view.last_render = details;
+    if (! view.reactComponent)
+      view.reactComponent = new view.reactComponentClass (details.render_data);
     
     if (details.render_target)
-      React.renderComponent (details.render_target);
+      React.renderComponent (view.reactComponent, details.render_target);
     else
-      React.renderComponent (details);
+      React.renderComponent (view.reactComponent, details);
   }
   
-  View.prototype.reactComponent = React.createClass ({
+  View.prototype.reactComponentClass = React.createClass ({
     render: function render () {
       var component = this;
       
-      // this.props contains the data passed to .renderComponent
+      // this.props contains the render_data passed to the class constructor
       
       return <div> <b> {this.props.name} </b> </div>;
     }
   });
   
-  return {
-    View: View
-  };
+  return View;
 });

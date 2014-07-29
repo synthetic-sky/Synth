@@ -1,12 +1,17 @@
-define ("sessions/logic/model", [], function ()
+define ("sessions/logic/model", ["underscore"], function (util)
 {
-  function Model (app) {
+  function Model (sessions) {
     var model = this;
-    model.local  = app;
-    model.global = app.global;
+    
+    model.local  = sessions;
+    model.global = sessions.global;
+    
+    sessions.register ('model', model);
+    
+    sessions.events (model, {
+      // ...
+    });
   }
   
-  return {
-    Model: Model
-  };
+  return Model;
 });

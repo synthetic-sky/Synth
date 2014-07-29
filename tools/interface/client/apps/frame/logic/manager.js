@@ -1,16 +1,19 @@
 define ("frame/logic/manager", ["underscore"], function (util)
 {
-  function Manager (app) {
+  function Manager (frame) {
     var manager = this;
-    manager.local  = app;
-    manager.global = app.global;
+    manager.local  = frame;
+    manager.global = frame.global;
+    
+    
+    frame.register ('manager', manager);
     
     /*
      *
      *
     */
     
-    app.events (manager, {
+    frame.events (manager, {
       'logic.text-input-change': manager.fake_bogus_text_change_handler,
     });
   }

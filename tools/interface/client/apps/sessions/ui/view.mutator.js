@@ -1,16 +1,16 @@
-define ("sessions/ui/view.mutator", [], function ()
+define ("sessions/ui/view.mutator", ["underscore"], function (util)
 {
-  function ViewMutator (app) {
-    var mutator = this;
-    mutator.local  = app;
-    mutator.global = app.global
+  function ViewMutator (sessions) {
+    var view_mutator = this;
+    view_mutator.local  = sessions;
+    view_mutator.global = sessions.global
     
-    app.events (mutator, {
-      // app-specific mutations ..
+    sessions.register ('view_mutator', view_mutator);
+    
+    sessions.events (mutator, {
+      // sessions-specific mutations of the UI ..
     });
   }
   
-  return {
-    Mutator: ViewMutator
-  };
+  return ViewMutator;
 });

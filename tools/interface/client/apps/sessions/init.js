@@ -1,30 +1,28 @@
-define ("sessions/init", ["common/app.base", "sessions/logic/init", "sessions/ui/init"],
-  function (app_base, logic, ui)
+define ("sessions/init", ["underscore", "common/app.base", "sessions/logic/init", "sessions/ui/init"],
+  function (util, AppBase, sessions_logic, sessions_ui)
 {
-  // inherit from app_base.AppBase
-  Sessions.prototype = app_base.AppBase.prototype;
-  
+  // inherit from AppBase
+  Sessions.prototype = AppBase.prototype;
+
   function Sessions (app)
   {
     // initialise the local application app_base
     var sessions = this;
     
     // call base-class constructor
-    app_base.AppBase.apply (sessions, arguments);
+    AppBase.apply (sessions, arguments);
 
     // keep a link to the global application app_base
     sessions.global = app;
       
     // initialize the two sub-components
-    logic.init (sessions);
+    sessions_logic.init (sessions);
 
     if (! config.headless)
-      ui.init (sessions);
+      sessions_ui.init (sessions);
 
     console.log ("sessions.init done")
   }
 
-  return {
-    Sessions: Sessions
-  };
+  return Sessions;
 });

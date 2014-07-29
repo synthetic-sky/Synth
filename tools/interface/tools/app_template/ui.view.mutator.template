@@ -1,14 +1,16 @@
 define ("%(PKG)s/ui/view.mutator", ["underscore"], function (util)
 {
-  function ViewMutator (app) {
-    var mutator = this;
-    mutator.local  = app;
-    mutator.global = app.global
+  function ViewMutator (%(PKG)s) {
+    var view_mutator = this;
+    view_mutator.local  = %(PKG)s;
+    view_mutator.global = %(PKG)s.global
     
-    app.events (mutator, {
-      // app-specific mutations ..
+    %(PKG)s.register ('view_mutator', view_mutator);
+    
+    %(PKG)s.events (mutator, {
+      // %(PKG)s-specific mutations of the UI ..
     });
   }
   
-  return Mutator;
+  return ViewMutator;
 });

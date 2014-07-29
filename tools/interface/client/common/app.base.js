@@ -9,11 +9,12 @@ define ("common/app.base", ["underscore"], function (util, client_ident)
     app_base.event_registry = Object.create (null);
   }
   
-  AppBase.prototype.register = function app_base_register (config) {
+  AppBase.prototype.register = function app_base_register (name, app) {
     var app_base = this;
-    if (config.name in app_base.registry)
-      return console.error ("cannot register " + config.name + "; the name is already taken");
-    app_base.registry [config.name] = config;
+    if (name in app_base)
+      return console.error ("cannot register " + name + "; the name is already taken");
+    console.assert (app);
+    app_base [name] = app;
   };
   
   AppBase.prototype.events = function app_base_events (obj, map) {

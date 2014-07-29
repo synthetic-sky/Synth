@@ -1,12 +1,17 @@
-define ("history/logic/model", [], function ()
+define ("history/logic/model", ["underscore"], function (util)
 {
-  function Model (app) {
+  function Model (history) {
     var model = this;
-    model.local  = app;
-    model.global = app.global;
+    
+    model.local  = history;
+    model.global = history.global;
+    
+    history.register ('model', model);
+    
+    history.events (model, {
+      // ...
+    });
   }
   
-  return {
-    Model: Model
-  };
+  return Model;
 });

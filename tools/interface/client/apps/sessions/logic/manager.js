@@ -6,7 +6,7 @@ define ("sessions/logic/manager", [], function ()
     manager.global = app.global;
   }
   
-  Manager.prototype.init = function manager_init () {
+  Manager.prototype.init = function sessions_manager_init () {
     var manager = this;
   };
   

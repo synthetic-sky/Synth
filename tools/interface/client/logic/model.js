@@ -1,5 +1,7 @@
-define ("logic/model", [], function ()
+define ("logic/model", ["common/model.base"], function (ModelBase)
 {
+  Model.prototype = ModelBase.prototype;
+  
   function Model (app) {
     var model = this;
     model.local  = app;

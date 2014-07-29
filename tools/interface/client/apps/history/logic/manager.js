@@ -1,16 +1,23 @@
-define ("history/logic/manager", [], function ()
+define ("history/logic/manager", ["underscore"], function (util)
 {
-  function Manager (app) {
+  function Manager (history) {
     var manager = this;
-    manager.local  = app;
-    manager.global = app.global;
+    
+    manager.local  = history;
+    manager.global = history.global;
+    
+    history.events (manager, {
+      // ...
+    });
   }
   
-  Manager.prototype.init = function manager_init () {
+  Manager.prototype.init = function history_manager_init () {
     var manager = this;
   };
   
-  return {
-    Manager: Manager
+  Manager.prototype.register_change = function history_register_change () {
+    var manager = this;
   };
+  
+  return Manager;
 });

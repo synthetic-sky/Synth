@@ -1,12 +1,17 @@
-define ("history/logic/model_mutator", [], function ()
+define ("history/logic/model.mutator", ["underscore"], function (util)
 {
-  function ModelMutator (app) {
+  function ModelMutator (history) {
     var model_mutator = this;
-    model_mutator.local  = app;
-    model_mutator.global = app.global;
+    
+    model_mutator.local  = history;
+    model_mutator.global = history.global;
+    
+    history.register ('model_mutator', model_mutator);
+    
+    history.events (model_mutator, {
+      // ...
+    });
   }
   
-  return {
-    ModelMutator: ModelMutator
-  };
+  return ModelMutator;
 });
