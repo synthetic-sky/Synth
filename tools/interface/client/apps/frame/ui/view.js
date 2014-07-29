@@ -109,16 +109,27 @@ define ("frame/ui/view", ["jquery", "react"], function ($, React)
               </div>
           </div>
           <div id="frame-bottom-menu-bar">
-              <a href="#" class="button button-circle button-primary"id="do-open">Open</a>
-              <a href="#" class="button button-circle" id="do-find">Query</a>
-              <a href="#" class="button button-circle" id="do-up">Up</a>
-              <a href="#" class="button button-circle" id="do-sideways">Related</a>
+              <a href="#" className="button button-circle button-primary"id="do-open">Open</a>
+              <a href="#" className="button button-circle" id="do-find">Query</a>
+              <a href="#" className="button button-circle" id="do-up">Up</a>
+              <a href="#" className="button button-circle" id="do-sideways">Related</a>
           </div>
         </div>
       )
       
       
       // <div id="#view-of-frame"> {this.props.name} </div>;
+    },
+    
+    componentDidMount: function () {
+      $("#frame-view") .height ($("#frame") .innerHeight () - 250);
+      $(window).resize( function () {
+      $("#frame-view") .height ($("#frame") .innerHeight () - 250); })
+      $(".button") .click (function () {
+          var $button = $(this);
+          
+          $("#frame-view-right-side") .append ("<p> Added by Button &lt;" + $button.attr ("id") + "&gt; </p>");
+      });
     }
   });
   
