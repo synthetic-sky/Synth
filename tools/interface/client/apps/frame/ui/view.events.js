@@ -10,7 +10,7 @@ define ("frame/ui/view.events", ["underscore", ""], function (util)
         console.log ("text was changed to:", new_text_of_the_control);
         app.emit ('logic.text-input-change', new_text_of_the_control);
       },
-    })
+    });
   }
   
   return ViewEvents;
