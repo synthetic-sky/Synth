@@ -24,7 +24,13 @@ define ("io/io.roundtrip", ["socket_io"], function (socket_io)
   
   IO.prototype.emit = function (event, data, callback) {
     var io = this;
-    io.socket.emit (event, data, callback); 
+    
+    if (callback)
+      io.socket.emit (event, data, callback);
+    else
+      return new Promise (function (resolve, reject) {
+        io.socket.emit (event, data, resolve); //! error reporting currently uses the reply.status field
+      });
   };
 
   return {
