@@ -2,14 +2,15 @@ define ("common/app.base", ["underscore"], function (util, client_ident)
 {
   function AppBase () {
     var app_base = this;
-    // app_base.registry = Object.create (null);
-    app_base.registry = app_base;
+    app_base.event_registry = Object.create (null);
     app_base.event_queue = Object.create (null);
     app_base.uid = app_base.UID ();
-    app_base.event_registry = Object.create (null);
   }
   
-  AppBase.prototype.register = function app_base_register (name, app) {
+  AppBase.type_registry = Object.create (null);
+  AppBase.instance_registry = Object.create (null);
+  
+  AppBase.prototype.register = function app_base_register_shortcut (name, app) {
     var app_base = this;
     if (name in app_base)
       return console.error ("cannot register " + name + "; the name is already taken");
@@ -24,44 +25,57 @@ define ("common/app.base", ["underscore"], function (util, client_ident)
     {
       var handler = map [event];
       
-      if (event in app_base.registry)
-        app_base.registry [event] .push (handler.bind (obj));
+      if (event in app_base.event_registry)
+        app_base.event_registry [event] .push (handler.bind (obj));
       else
-        app_base.registry [event] = [handler.bind (obj)];
+        app_base.event_registry [event] = [handler.bind (obj)];
     }
   };
   
   AppBase.prototype.invoke = function app_base_invoke (type, headless) {
     var app_base = this;
-    var uid = app_base.UID ();
     
     //! this seems to assume that all types have already been loaded
     
-    // var app = app_base.registry [type] .create (uid, headless);
-    
-    // app.uid = uid;
-    // app_base.registry [uid] = app;
-    
-    // return app;
-    
     //: alternative: return a promise of the app ?
-    var app_type_promise = app_base.registry [type] ? app_base.registry [type] : app_base.load_app (type);
     
-    return app_type_promise.then (function (app_type)
+    if (AppBase.type_registry [type])
     {
-      console.assert (! (type in app_base.registry));
-      app_base.registry [type] = app_type;
-      var app = new app_type (); //! app_type needs to be the main class for this to work
-      app.uid = app_base.UID ();
-      app_base.registry [app.uid] = app;
-      return app;
+      console.assert (! AppBase.type_registry [type] .uid);
+      
+      return new Promise (function (resolve, reject) {
+        resolve (spawn_app (AppBase.type_registry [type]));
+      });
+    }
+    else
+    if (AppBase.type_registry [type] === null)
+      return console.error ("app_base.invoke.2 nyi - should return promise");
+    else
+      AppBase.type_registry [type] = null; // don't load twice
+      
+    return app_base.load_app (type) .then (function (app_type)
+    {
+      console.assert (! AppBase.type_registry [type]);
+      
+      AppBase.type_registry [type] = app_type;
+      
+      return spawn_app (app_type);
     });
+    
+    function spawn_app (app_type) {
+      var app = new app_type (app_base);
+      
+      app.uid = app_base.UID ();
+      AppBase.instance_registry [app.uid] = app;
+      
+      return app;
+    }
     
     // ... async by default ?
   };
   
   AppBase.prototype.load_app = function app_base_load_app (name) {
-    var app_base = this;
+    var app_base = this.global || this;
     
     if (! app_base.initial_load_done)
     {
@@ -81,7 +95,7 @@ define ("common/app.base", ["underscore"], function (util, client_ident)
     else
     {
       return new Promise (function (resolve, reject) {
-        require (name + "/init", function (the_loaded_app) {
+        require ([name + "/init"], function (the_loaded_app) {
           if (the_loaded_app)
             resolve (the_loaded_app);
           else
@@ -96,19 +110,19 @@ define ("common/app.base", ["underscore"], function (util, client_ident)
     return app_base.invoke (type, true);
   };
   
-  AppBase.prototype.call = function app_base_call (instance, api, message) {
+  AppBase.prototype.send = function app_base_call (uid, api, message) {
     var app_base = this;
-    app_base.registry [instance] [api] (message);
-  };
-  
-  AppBase.prototype.send = function app_base_send (instance, message) {
-    var app_base = this;
-    app_base.registry [instance] .got_mail (message);
+    var instance = AppBase.instance_registry [uid];
+    var method = instance && instance [api];
+    if (instance && method)
+      method.call (instance, message);
+    else
+      console.error ("failed to invoke", uid, api, "with argument", message);
   };
   
   AppBase.prototype.forget = function app_base_unregister (uid) {
     var app_base = this;
-    delete app_base.registry [uid];
+    delete AppBase.instance_registry [uid];
   };
   
   AppBase.prototype.on = function app_base_subscribe_to_event (event, handler) {
@@ -120,10 +134,10 @@ define ("common/app.base", ["underscore"], function (util, client_ident)
      * ! This should really be its own .event_registry - to avoid naming conflicts.
     */
     
-    if (event in app_base.registry)
-      app_base.registry [event] .push (handler);
+    if (event in app_base.event_registry)
+      app_base.event_registry [event] .push (handler);
     else
-      app_base.registry [event] = [handler];
+      app_base.event_registry [event] = [handler];
       
     /*
      * Events are queued by .emit (and more explicitly, by it's alias .queue)
@@ -143,10 +157,10 @@ define ("common/app.base", ["underscore"], function (util, client_ident)
   AppBase.prototype.process_event_queue = function app_base_process_event_queue (event)
   {
     var app_base = this;
-    if (event in app_base.event_queue && event in app_base.registry)
+    if (event in app_base.event_queue && event in app_base.event_registry)
     {
       app_base.event_queue [event] .forEach (function (details) {
-        app_base.registry [event] .forEach (function (handler) {
+        app_base.event_registry [event] .forEach (function (handler) {
           handler (details);
         });
       });
@@ -156,11 +170,11 @@ define ("common/app.base", ["underscore"], function (util, client_ident)
     
   AppBase.prototype.emit = function app_base_emit_event (event, details) {
     var app_base = this;
-    if (event in app_base.registry && ! app_base.registry [event] .blocked)
+    if (event in app_base.event_registry && ! app_base.event_registry [event] .blocked)
     {
       app_base.process_event_queue (event);
       
-      app_base.registry [event] .forEach (function (handler) {
+      app_base.event_registry [event] .forEach (function (handler) {
         handler (details);
       });
     }
@@ -171,18 +185,19 @@ define ("common/app.base", ["underscore"], function (util, client_ident)
       app_base.event_queue [event] = [details];
   };
   
-  AppBase.prototype.queue = AppBase.prototype.emit;
+  AppBase.prototype.queue = AppBase.prototype.emit
+  AppBase.prototype.trigger = AppBase.prototype.emit;
   
   AppBase.prototype.block = function app_base_block_event (event) {
     var app_base = this;
-    if (event in app_base.registry)
-      app_base.registry [event] .blocked = true;
+    if (event in app_base.event_registry)
+      app_base.event_registry [event] .blocked = true;
     return util.partial (app_base.unblock.bind (app_base), event);
   }
   
   AppBase.prototype.unblock = function app_base_unblock_event (event, last_only) {
     var app_base = this;
-    app_base.registry [event] .blocked = false;
+    app_base.event_registry [event] .blocked = false;
     if (last_only && event in app_base.event_queue)
       app_base.event_queue [event] .splice (0, app_base.event_queue [event] .length - 1);  
     app_base.process_event_queue (event);

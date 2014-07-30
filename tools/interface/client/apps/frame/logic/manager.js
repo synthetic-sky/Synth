@@ -13,8 +13,16 @@ define ("frame/logic/manager", ["underscore"], function (util)
      *
     */
     
+    frame.register ('views', {});
+    
     frame.events (manager, {
-      'logic.text-input-change': manager.fake_bogus_text_change_handler,
+      'frame.logic.text-input-change': manager.fake_bogus_text_change_handler,
+      'frame.logic.open-file-view': function () {
+        manager.open_view ({
+          name: 'file.view.text',
+          unique: true,
+        });
+      }
     });
   }
   
@@ -103,7 +111,7 @@ define ("frame/logic/manager", ["underscore"], function (util)
   };
   
   Manager.prototype.fake_bogus_text_change_handler = function fake_bogus_text_change_handler (the_new_text) {
-    console.log ("manager: logic.text-input-change");
+    console.log ("manager: frame.logic.text-input-change");
     var manager = this;
     
     // block (= throttle) text-input-change, because it can come in too quickly (for PouchDB to keep up);
@@ -112,7 +120,7 @@ define ("frame/logic/manager", ["underscore"], function (util)
     //        and still continue to block here, to avoid spamming session.update events.
     //    ! but note that when we unblock the sessions.update queue, we will want to process the entire backlog of events. etc.
     //         (so multiple event throttles can serve different purposes)
-    var done = manager.local.block ('logic.text-input-change');
+    var done = manager.local.block ('frame.logic.text-input-change');
     
     manager.global.Pouch.get ('test-key', function (err, doc)
     {
@@ -143,31 +151,53 @@ define ("frame/logic/manager", ["underscore"], function (util)
           console.error ("fake_bogus_text_change_handler: failed to put into local PouchDB", err, ok, manager.fake_bogus_text_obj);
       });
     });
-    
-    manager.global.Pouch.changes () .on ('change', function (change) {
-      manager.global.io.emit ('storage.update', change);
-    });
-    // manager.global.Pouch.replicate.to('http://synth-master-c9-ainow.c9.io:21400');
   }
   
-  Manager.prototype.open_view = function manager_open_view (app, app_data) {
-    var manager = this;
+  Manager.prototype.open_view = function frame_manager_open_view (details, app_data) {
+    var manager = this, frame = this.local;
+    console.assert (details.name);
     
-    if (manager.local.views.length)
+    if (! frame.views [details.name] || ! details.unique)
     {
-      
+      var name = details.name;
+      frame.invoke (details.name) .then (function (app) {
+        frame.views [details.name] = app;
+        manager.render_view (app, app_data);
+      }).catch (function (err) {
+        console.error (err);
+      });
     }
+    else
+    {
+      manager.render_view (frame.views [details.name], app_data);
+    }
+  };
+      
+  Manager.prototype.render_view = function frame_manager_render_view (app, app_data)
+  {
+    var manager = this, frame = this.local;
+    
+    console.log ("frame.mananger.render_view", app, app_data);
+    
+    console.assert (frame.viewport, "frame.ui.view should have registered the viewport by now");
+    
+    app.trigger ('frame.render', {
+      render_target: frame.viewport,
+      render_data: app_data || {},
+    });
+    
+    frame.emit ('frame.model.switch-view',  { view_config: view_config });
     
     var view_config = {
       app: app,
       app_data: app_data || {},
       ident: util.uniqueId ("view:")
-    }
+    };
     
-    manager.render_view (view_config);
+    frame.active_view = view_config;
     
-    manager.local.views.push ()
-  }
+    // manager.render_view (view_config);
+  };
   
   Manager.prototype.close_view = function manager_close_view () {
     var manager = this;
@@ -180,7 +210,7 @@ define ("frame/logic/manager", ["underscore"], function (util)
     // manager.local.emit ('frame/close-view');
     
     manager.local.on_frame_close_view ();
-  }
+  };
   
   return Manager;
 });

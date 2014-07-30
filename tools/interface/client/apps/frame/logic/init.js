@@ -8,7 +8,10 @@ define ("frame/logic/init", ["frame/logic/manager", "frame/logic/model.mutator",
       new Mutator (frame);
       new Model (frame);
     
-      spawn (frame.manager.init.bind (frame.manager)); // frame.manager.init is a generator
+      if (window.spawn)
+        spawn (frame.manager.init.bind (frame.manager)); // frame.manager.init is a generator
+      else
+        frame.manager.init ()
     }
   };
 });

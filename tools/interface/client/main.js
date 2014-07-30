@@ -16,8 +16,25 @@ require.config ({
     "text": "ext/text",
     "JSXTransformer": "ext/JSXTransformer-mod",
     "underscore": "../node_modules/underscore/underscore",
+    "ace": "ext/ace",
+    // "code-mirror": "../ext/requirejs-codemirror/src/code-mirror"
   },
-  waitSeconds: 10
+  waitSeconds: 10,
+  
+  // requirejs-codemirror config:
+  cm: {
+    baseUrl: '../node_modules/codemirror/',
+    path: 'lib/codemirror',
+    css: 'node_modules/codemirror/lib/codemirror.css',
+    themes: {
+        monokai: '/path/to/theme/monokai.css',
+        ambiance: '/path/to/theme/ambiance.css',
+        eclipse: '/path/to/theme/eclipse.css'
+    },
+    modes: {
+      path: 'mode/{mode}/{mode}'
+    }
+  },
 });
 
 function load_apps (apps) {
@@ -28,21 +45,9 @@ function load_apps (apps) {
   apps.forEach (function (name) {
     require ([name + "/init"], function (plugin_app) {
       if (plugin_app)
-        console.log ("app", name, "loaded ok")
+        console.log ("app", name, "loaded ok");
       else
-        console.error ("app", name, "failed to load")
-      
-      // stub
-      if (name == "frame")
-      {
-        var app = window.theApp, Frame = plugin_app;
-        
-        app.frame = new Frame (app);
-        // app.frame.view.render ({
-        //   render_target: document.body,
-        //   render_data: { data: "fake data" },
-        // });
-      }
+        console.error ("app", name, "failed to load");
     })  
   });
 }
@@ -80,10 +85,5 @@ require (["underscore", "common/app.base", "logic/init", "ui/init", "io/init", "
         
       // ident.load_ident ();
         
-      console.log ("init.js done")
-            
-      
-    //  app.io.emit ("!put", {path: "session:test-id2", data: { x: 10, y: 21 }}, function (reply) { console.log ("received reply for !put:", reply)})
-
-     // app.io.emit ("!load", {path: "session:test-id2"}, function (reply) { console.log ("received reply for !load:", reply)})
+      console.log ("init.js done");
 });

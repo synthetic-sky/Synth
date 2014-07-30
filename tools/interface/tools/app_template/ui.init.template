@@ -2,10 +2,10 @@ define ("%(PKG)s/ui/init", ["underscore", "%(PKG)s/ui/view.mutator", "jsx!%(PKG)
   function (util, ViewMutator, View, ViewEvents)
 {
   return {
-    init: function ui_init (%(PKG)s) {
-      new ViewMutator (%(PKG)s);
-      new View (%(PKG)s);
-      new ViewEvents (%(PKG)s);
+    init: function %(PKG_VAR)s_ui_init (%(PKG_VAR)s) {
+      new ViewMutator (%(PKG_VAR)s);
+      new View (%(PKG_VAR)s);
+      new ViewEvents (%(PKG_VAR)s);
     }
   };
 });

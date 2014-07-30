@@ -18,7 +18,9 @@
     "underscore": "^1.6.0",
     "rsvp": "^3.0.9",
     "recast": "^0.6.6",
-    "regenerator": "^0.4.12"
+    "regenerator": "^0.4.12",
+    "brace": "^0.3.0",
+    "codemirror": "^4.4.0"
   },
   "devDependencies": {
     "phantomjs": "^1.9.7-15",

@@ -1,27 +1,27 @@
 define ("%(PKG)s/init", ["underscore", "common/app.base", "%(PKG)s/logic/init", "%(PKG)s/ui/init"],
-  function (util, AppBase, %(PKG)s_logic, %(PKG)s_ui)
+  function (util, app_base, %(PKG_VAR)s_logic, %(PKG_VAR)s_ui)
 {
-  // inherit from AppBase
-  %(PKG_tc)s.prototype = AppBase.prototype;
+  // inherit from app_base.AppBase
+  %(PKG_tc)s.prototype = app_base.AppBase.prototype;
 
-  function %(PKG_tc)s (app)
+  function %(PKG_tc)s (app, headless)
   {
     // initialise the local application app_base
-    var %(PKG)s = this;
+    var %(PKG_VAR)s = this;
     
     // call base-class constructor
-    AppBase.apply (%(PKG)s, arguments);
+    app_base.AppBase.apply (%(PKG_VAR)s, arguments);
 
     // keep a link to the global application app_base
-    %(PKG)s.global = app;
+    %(PKG_VAR)s.global = app;
       
     // initialize the two sub-components
-    %(PKG)s_logic.init (%(PKG)s);
+    %(PKG_VAR)s_logic.init (%(PKG_VAR)s);
 
-    if (! config.headless)
-      %(PKG)s_ui.init (%(PKG)s);
+    if (! headless)
+      %(PKG_VAR)s_ui.init (%(PKG_VAR)s);
 
-    console.log ("%(PKG)s.init done")
+    console.log ("%(PKG_tc)s.init done")
   }
 
   return %(PKG_tc)s;

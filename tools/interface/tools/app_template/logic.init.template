@@ -2,12 +2,12 @@ define ("%(PKG)s/logic/init", ["underscore", "%(PKG)s/logic/manager", "%(PKG)s/l
   function (util, Manager, ModelMutator, Model)
 {
   return {
-    init: function logic_init (%(PKG)s) {
-      new Manager (%(PKG)s);
-      new Mutator (%(PKG)s);
-      new Model (%(PKG)s);
+    init: function %(PKG_VAR)s_logic_init (%(PKG_VAR)s) {
+      new Manager (%(PKG_VAR)s);
+      new ModelMutator (%(PKG_VAR)s);
+      new Model (%(PKG_VAR)s);
     
-      %(PKG)s.manager.init ();
+      %(PKG_VAR)s.manager.init ();
     }
   };
 });

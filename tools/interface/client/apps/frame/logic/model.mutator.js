@@ -9,7 +9,8 @@ define ("frame/logic/model.mutator", ["underscore"], function (util)
     frame.register ('model_mutator', model_mutator);
     
     frame.events (model_mutator, {
-      'logic.text-input-change': model_mutator.fake_bogus_text_change_handler,
+      'frame.model.text-input-change': model_mutator.fake_bogus_text_change_handler,
+      'frame.model.switch-view': function (event) { console.log ("frame.model.mutator caught:", event) },
     });
   }
   

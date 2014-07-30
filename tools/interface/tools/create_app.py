@@ -15,8 +15,9 @@ def load_template (name):
 def write_file (name, file):
   if os.path.exists (name):
     print "not overwriting %s" % os.path.abspath (name)
-  with open (name, "w") as f:
-    f.write (file)
+  else:
+    with open (name, "w") as f:
+      f.write (file)
 
 def create_logic_init ():
   write_file ("init.js", load_template ("logic.init") % package_dict)
@@ -38,7 +39,8 @@ def create_pkg_init ():
   tmpl = load_template ("main.init")
   write_file ("init.js", tmpl % {
     "PKG": package, 
-    "PKG_tc": package.title ()
+    "PKG_tc": package .title () .replace ("_", "") .replace (".", ""),
+    "PKG_VAR": package .replace (".", "_")
   })
 
 def create (*files):
@@ -50,6 +52,7 @@ def create (*files):
       write_file (fn, tmpl % { 
         "PKG": package, 
         "PKG_tc": package .title () .replace ("_", "") .replace (".", ""),
+        "PKG_VAR": package .replace (".", "_"),
         "SUB_PKG": sub_package .replace (".", ""),
         "MOD": basename,
         "VAR": basename .replace (".", "_"), 
@@ -72,7 +75,7 @@ def create_pkg (path):
   os.chdir (path)
   
   package = os.path.basename (os.path.abspath ("."))
-  package_dict = { "PKG": package }
+  package_dict = { "PKG": package, "PKG_VAR": package.replace (".", "_") }
   
   mkdir ("docs")
   os.chdir ("docs")

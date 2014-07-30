@@ -2,39 +2,48 @@
 
 define ("%(PKG)s/ui/view", ["underscore", "jquery", "react"], function (util, $, React)
 {
-  function View (app) {
+  function View (%(PKG_VAR)s) {
     var view = this;
-    view.local  = app;
-    view.global = app.global;
+    view.local  = %(PKG_VAR)s;
+    view.global = %(PKG_VAR)s.global;
     
-    view.local.events (view, {
-      render: function (details) {
-        view.local.view.render (details.target);
-      }
-    });
+    %(PKG_VAR)s.register ('view', view);
   }
   
-  View.prototype.render = function render_view (details)
+  View.prototype.render = function %(PKG_VAR)s_render (render_config)
   {
-    var view = this;
+    var view = this, %(PKG_VAR)s = this.local;
+    
+    if (! (render_config.render_target && render_config.render_data))
+      throw new Error ("refusing to render view without a target and configuration");
+      
+    console.assert (render_config.render_data.%(PKG_VAR)s === undefined); // sanity
+    render_config.render_data.%(PKG_VAR)s = %(PKG_VAR)s;
+    render_config.render_data.view = view;
     
     if (! view.reactComponent)
-      view.reactComponent = new view.reactComponentClass (details.render_data);
+      view.reactComponent = new view.reactComponentClass (render_config.render_data);
     
-    if (details.render_target)
-      React.renderComponent (view.reactComponent, details.render_target);
-    else
-      React.renderComponent (view.reactComponent, details);
-  }
+    React.renderComponent (view.reactComponent, render_config.render_target);
+  };
   
   View.prototype.reactComponentClass = React.createClass ({
-    render: function render () {
-      var component = this;
+    render: function render ()
+    {
+      var component = this,
+             config = component.props,
+               view = config.view, %(PKG_VAR)s = config.app;
       
       // this.props contains the render_data passed to the class constructor
       
-      return <div> <b> {this.props.name} </b> </div>;
-    }
+      return <div> <b> {config.name} </b> </div>;
+    },
+    componentDidMount: function componentDidMount ()
+    {
+      var component = this,
+             config = component.props,
+               view = config.view, %(PKG_VAR)s = config.app;
+    },
   });
   
   return View;

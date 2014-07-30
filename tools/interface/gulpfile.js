@@ -10,10 +10,23 @@ var client_path_repl = '$1/dist$2';
 
 gulp.task ('default', ['watch']);
 
-gulp.task ('copy', function () {
+gulp.task ('copy', ['copy-css', 'copy-js'], function () {
   gulp.src ('index.html')
       .pipe (replace (client_path_re, client_path_repl))
       .pipe (gulp.dest ('dist'));
+});
+
+gulp.task ('copy-js', function () {
+  gulp.src ('client/**/*.js')
+    .pipe (plumber ())
+    .pipe (regenerator ())
+      .pipe (replace (client_path_re, client_path_repl))
+      .pipe (gulp.dest ('dist'));
+});
+
+gulp.task ('copy-css', function () {
+  gulp.src ('client/**/*.css')
+    .pipe (gulp.dest ('dist'));
 });
 
 

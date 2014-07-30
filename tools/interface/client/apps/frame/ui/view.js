@@ -8,7 +8,7 @@ define ("frame/ui/view", ["jquery", "react"], function ($, React)
     view.global = app.global;
     
     view.local.events (view, {
-      render: view.render.bind (view)
+      render: view.render.bind (view),
     });
   }
   
@@ -23,6 +23,8 @@ define ("frame/ui/view", ["jquery", "react"], function ($, React)
       console.assert (! ('frame' in details.render_data));
       details.render_data.frame = view.local;
     }
+    
+    details.app = view.local;
     
     if (! view.reactComponent)
       view.reactComponent = new view.reactComponentClass (details.render_data);
@@ -109,7 +111,9 @@ define ("frame/ui/view", ["jquery", "react"], function ($, React)
               </div>
           </div>
           <div id="frame-bottom-menu-bar">
-              <a href="#" className="button button-circle button-primary"id="do-open">Open</a>
+              <a href="#" className="button button-circle button-primary" id="do-open" onClick={
+                frame.emitter ("view.do-open")
+              }>Open</a>
               <a href="#" className="button button-circle" id="do-find">Query</a>
               <a href="#" className="button button-circle" id="do-up">Up</a>
               <a href="#" className="button button-circle" id="do-sideways">Related</a>
@@ -130,6 +134,8 @@ define ("frame/ui/view", ["jquery", "react"], function ($, React)
           
           $("#frame-view-right-side") .append ("<p> Added by Button &lt;" + $button.attr ("id") + "&gt; </p>");
       });
+      console.log (this);
+      this.props.frame.register ('viewport', $("#frame-view") [0]);
     }
   });
   
