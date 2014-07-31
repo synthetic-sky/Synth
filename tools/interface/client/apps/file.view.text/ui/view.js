@@ -27,8 +27,8 @@ define ("file.view.text/ui/view", ["underscore", "jquery", "react"], function (u
     //   view.reactComponent = new view.reactComponentClass (details.render_data);
     
     // React.renderComponent (view.reactComponent, details.render_target);
-    
-    $(details.render_target).append ('<div id="editor">');
+    console.log ("trying to render file.view.ext");
+    $(details.render_target).append ('<div id="editor" style="width: 100%; height: 300px;">');
     var editor = ace.edit("editor");
     editor.setTheme ("ace/theme/monokai");
     editor.getSession().setMode ("ace/mode/javascript");

@@ -59,7 +59,7 @@ requirejs.define ("io-with-client", ["express", "http", "socket.io", "path", "ro
     
     IO.server.listen (process.env.PORT || 3000, process.env.IP || "0.0.0.0", function (){
       var addr = IO.server.address ();
-      console.log ("Chat IO.server listening at", addr.address + ":" + addr.port);
+      console.log ("Spiffy HTTP.server listening at", addr.address + ":" + addr.port);
     });
     
     routes.register (IO.router);

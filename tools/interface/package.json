@@ -19,7 +19,8 @@
     "rsvp": "^3.0.9",
     "recast": "^0.6.6",
     "regenerator": "^0.4.12",
-    "brace": "^0.3.0"
+    "brace": "^0.3.0",
+    "tiny": "0.0.10"
   },
   "devDependencies": {
     "phantomjs": "^1.9.7-15",

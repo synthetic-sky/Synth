@@ -1,4 +1,4 @@
-define ("storage", ["pouchdb"], function (model)
+define ("storage", [], function ()
 {
   function Model ()  {
       var model = this;

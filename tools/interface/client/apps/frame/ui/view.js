@@ -135,7 +135,7 @@ define ("frame/ui/view", ["jquery", "react"], function ($, React)
           $("#frame-view-right-side") .append ("<p> Added by Button &lt;" + $button.attr ("id") + "&gt; </p>");
       });
       console.log (this);
-      this.props.frame.register ('viewport', $("#frame-view") [0]);
+      this.props.frame.register ('viewport', $("#frame-view-left-side") [0]);
     }
   });
   

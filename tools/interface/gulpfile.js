@@ -47,3 +47,9 @@ gulp.task ('watch', function () {
 });
 
 
+gulp.task ('watch-manually', function () {
+  setInterval (function () {
+    console.log ("triggering manual update");
+    gulp.start ('copy');
+  }, 5000);
+});

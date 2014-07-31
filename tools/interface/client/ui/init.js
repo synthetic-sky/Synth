@@ -15,8 +15,10 @@ define ("ui/init", ["ui/view.mutator", "jsx!ui/view", "ui/view.events", "apps/fr
       // frame. //! frame might not be loaded yet?
       
       app.invoke ("frame") .then (function (frame) {
-        frame.init ();
-        frame.render (document.querySelector ("#frame"));
+        // render currently triggered in frame/logic/manager
+        
+        // frame.render (document.querySelector ("#frame"));
+        // frame.trigger ('!render', { render_target: document.querySelector ("#frame") });
       }).catch (function (error) {
         throw error;
       })

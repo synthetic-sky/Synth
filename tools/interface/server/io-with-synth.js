@@ -1,5 +1,6 @@
 define ("io-with-synth", ["nanomsg"], function (nano)
 {
+  /*
   var pub = nano.socket ('pub');
   var sub = nano.socket ('sub');
   
@@ -16,7 +17,7 @@ define ("io-with-synth", ["nanomsg"], function (nano)
   setTimeout (function () {
       pub.send ("Hello from nanomsg!");
   }, 100);
-
+  */
   return {
     IO: function stub () {}
   };

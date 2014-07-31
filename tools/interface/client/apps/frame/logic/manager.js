@@ -63,51 +63,43 @@ define ("frame/logic/manager", ["underscore"], function (util)
         // stub
         console.log ("received reply for !load", reply)
         
-        if (reply.status == 0)
+        if (reply.status !== 0)
         {
-          delete reply.data._rev; // the server-side rev
-          var id = reply.data._id;
-          delete reply.data._id;
-          manager.fake_bogus_text_obj_server_name = reply.data.server_name;
-          manager.global.Pouch.get (id, function (err, doc) {
-            manager.global.Pouch.remove (doc, function (err) {
-              if (err) console.log (id, "not previously found in local Pouch, ok?", err, reply.data)
-              manager.global.Pouch.put (reply.data, id, function (err, ok) {
-                if (err){
-                  console.error ("failed to put doc into local database:", err, reply.data)
-                  debugger
-                  
-                }
-                else
+          console.log ("session data not found on server - initiating new session", reply);
+          reply = { data: { text: '(new session)', _key: 'test-key' } };
+        }
+        var id = reply.data._key;
+        delete reply.data._id;
+        delete reply.data._key;
+        manager.global.Pouch.get (id, function (err, doc) {
+          manager.global.Pouch.remove (doc, function (err) {
+            if (err) console.log (id, "not previously found in local Pouch, ok?", err, reply.data)
+            manager.global.Pouch.put (reply.data, id, function (err, ok) {
+              if (err){
+                console.error ("failed to put doc into local database:", err, reply.data)
+              }
+              else
+              {
+                manager.global.Pouch.get ('test-key') .then (function (doc)
                 {
-                  manager.global.Pouch.get ('test-key') .then (function (doc)
-                  {
-                    if (! manager.fake_bogus_text_obj)
-                      manager.fake_bogus_text_obj = doc;
-                    console.log ("manager.init: loaded doc:", doc)
-                    manager.local.queue ('render', {
-                      render_target: document.body,
-                      render_data: { data: doc.text },
-                    });
-                  }, function (err) {
-                    console.error ("manager.init: failed to load doc:", err)
-                  }).catch (function (err) {
-                    console.error ("manager.init: failed during render:", err)
-                  })
-                }
-              });
+                  if (! manager.fake_bogus_text_obj)
+                    manager.fake_bogus_text_obj = doc;
+                  console.log ("manager.init: loaded doc:", doc)
+                  manager.local.queue ('render', {
+                    render_target: document.body,
+                    render_data: { data: doc.text },
+                  });
+                }, function (err) {
+                  console.error ("manager.init: failed to load doc:", err)
+                }).catch (function (err) {
+                  console.error ("manager.init: failed during render:", err)
+                })
+              }
             });
           });
-        }
-        else
-        {
-          console.error ("failed to load data from backend:", reply);
-        }
-          
-        
+        });
       });
     });
-   
   };
   
   Manager.prototype.fake_bogus_text_change_handler = function fake_bogus_text_change_handler (the_new_text) {
@@ -143,7 +135,6 @@ define ("frame/logic/manager", ["underscore"], function (util)
             else
             {
               console.log ("received reply for !put: session updated ok", reply);
-              manager.fake_bogus_text_obj_server_name = reply.data.rev; //! should we put to the server first?
             }
           });
         }
