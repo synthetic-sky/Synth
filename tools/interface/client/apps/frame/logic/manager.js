@@ -163,9 +163,7 @@ define ("frame/logic/manager", ["underscore"], function (util)
       frame.invoke (details.name) .then (function (app) {
         frame.views [details.name] = app;
         manager.render_view (app, app_data);
-      }).catch (function (err) {
-        console.error (err);
-      });
+      })
     }
     else
     {

@@ -1,6 +1,6 @@
 /** @jsx React.DOM */
 
-define ("file.view.text/ui/view", ["underscore", "jquery", "react", "ace"], function (util, $, React, ace)
+define ("file.view.text/ui/view", ["underscore", "jquery", "react"], function (util, $, React)
 {
   function View (file_view_text) {
     var view = this;
@@ -51,7 +51,6 @@ define ("file.view.text/ui/view", ["underscore", "jquery", "react", "ace"], func
       var component = this,
              config = component.props,
                view = config.view, file_view_text = config.app;
-      });
     },
   });
   
